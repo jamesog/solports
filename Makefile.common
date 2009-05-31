@@ -1,0 +1,510 @@
+# vi:set ts=4:
+##########
+#
+# Solaris Package System
+#
+##########
+#
+# **************************************************
+# * Please view me with 4-column tabs! (:set ts=4) *
+# **************************************************
+#
+# Variables which may be used in package Makefiles:
+#
+# REQUIRED VARIABLES
+#
+# NAME				- Short package name
+# VERSION			- The software version
+# DESC				- Short description of package
+# ARCHES			- Architectures on which this package will work,
+#						e.g. sparc, i386, all
+# CATEGORY			- Package category e.g. application
+# MAINTAINER		- E-mail address of package maintainer
+#
+# OPTIONAL VARIABLES
+#
+# PKGNAMEPREFIX		- Short code prefixed to package name
+#					  Default: PORT
+# PKGREVISION		- The package revision
+# LONGDESC			- Longer description of the package (<255 chars)
+# VENDOR			- Vendor description
+# BASEDIR			- Default location to install if relocatable
+# EXTRACT_SUFX		- Distribution file suffix
+#					  Default: .tar.gz
+# INSTALL_SCRIPTS	- Scripts to run during install
+# REMOVE_SCRIPTS	- Scripts to run on remove
+# SMF_MANIFEST		- SMF manifest to install
+# SMF_METHOD		- SMF method to install (requires SMF_MANIFEST)
+# BUILD_DEPENDS		- Space-separated list of packages to required to build this one
+# RUN_DEPENDS		- Space-separated list of packages to required for this to run
+#
+# The following affect build options:
+#
+# PREFIX			- Install prefix for package files. Usually BASEDIR.
+#					  Default: /usr/local if BASEDIR unset
+#					           $(BASEDIR) if BASEDIR is set
+# HAS_CONFIGURE		- If set, the software uses a configure script. The
+#					  configure stage will not do anything if this is
+#					  not set.
+# CONFIGURE_SCRIPT	- Name of configure script.
+#					  Default: configure
+# CONFIGURE_ARGS	- Arguments to pass to configure.
+#					  Default: "--prefix=$(PREFIX)"
+# MAKE_ARGS			- Arguments to pass to make.
+#					  Default: none
+#
+# The following are set automatically. Do not set them unless you
+# know what you are doing!
+#
+# PKGINFO			- Location of the pkginfo file
+#					  Default: $(PKGDIR)/pkginfo
+# PROTOTYPE			- Location of the prototype file
+#					  Default: $(PKGDIR)/Prototype
+# DISTINFO			- Location of the distribution info file (contains checksums)
+#					  Default: $(PKGDIR)/distinfo
+# SPOOLDIR			- Working directory for pkgmk(1)
+#					  Default: $(PKGDIR)/spool
+# CLASSES			- The classes used in the prototype file
+#					  Default: "none" if SMF_MANIFEST is not set
+#					           "none smf" if SMF_MANIFEST is set
+# PKGSTORE			- Where datastream packages are stored
+#					  Default: $(PORTSDIR)/packages
+#
+##########
+#
+# Available targets:
+#
+# fetch				- Fetches the source distfile(s)
+# checksum			- Checks the validity of downloaded distfiles
+# extract			- Extract the sources to $(WRKSRC)
+# configure			- Run the configure script, if HAS_CONFIGURE is defined
+# build				- Default target
+# fakeinstall		- Installs to $(WRKINST)
+# install			- Alias of fakeinstall
+# prototype			- Generate the Prototype file
+# pkginfo			- Generate the pkginfo file
+# pkg				- Build the package datastream
+#
+# reconfigure		- Re-run configure target
+# rebuild			- Re-run build target
+#
+# clean				- Remove $(WRKDIR) and all working data
+#
+# makesum			- Creates the DISTINFO file
+#
+##########
+#
+# Standard variables
+#
+#####
+PORTSDIR?=	/export/pkg
+PKGSTORE?=	$(PORTSDIR)/packages
+PKGNAMEPREFIX?=	PORT
+DISTDIR?=	$(PORTSDIR)/distfiles
+
+# Package defaults
+#PKGNAME?=	$(PKGNAMEPREFIX)$(NAME)$(PKGNAMESUFFIX)-$(VERSION)
+#PKGDIR?=	$(PORTSDIR)/$(CATEGORY)/$(NAME)$(PKGNAMESUFFIX)
+PKGNAME?=	$(NAME)$(PKGNAMESUFFIX)-$(VERSION)
+PKGDIR?=	$(CURDIR)
+SPOOLDIR?=	$(PKGDIR)/spool
+PKGINFO?=	$(WRKDIR)/pkginfo
+PROTOTYPE?=	$(PKGDIR)/Prototype
+DEPENDFILE?=	$(WRKDIR)/depend
+# XXX: PKGFILE moved below
+#PKGFILE?=	$(PKGNAME)_$(ARCH).pkg
+WRKDIR?=	$(PKGDIR)/work
+WRKSRC?=	$(WRKDIR)/$(NAME)-$(VERSION)
+WRKINST?=	$(WRKDIR)/root
+FILESDIR?=	$(PKGDIR)/files
+DISTINFO?=	$(PKGDIR)/distinfo
+CLASSES?=	none
+DISTNAME?=	$(NAME)-$(VERSION)$(EXTRACT_SUFX)
+EXTRACT_SUFX?=	.tar.gz
+ifndef BASEDIR
+PREFIX?=	/usr/local
+else
+PREFIX?=	$(BASEDIR)
+endif
+CONFIGURE_ARGS?=--prefix=$(PREFIX)
+FAKE_PREFIX?=$(WRKINST)
+
+# Default maintainer
+MAINTAINER?=	ports@solports.org
+
+# Get the machine arch
+ifndef ARCH
+ARCH=	$(shell uname -p)
+endif
+
+ifeq (,$(findstring $(ARCH),$(ARCHES)))
+$(error $(PKGNAME) does not run on the $(ARCH) platform.)
+endif
+
+# Application paths
+AWK?=	/usr/xpg4/bin/awk
+# XXX: do not use env -i unless you set PATH somewhere...
+ENV?=	/usr/bin/env
+TAR?=	/usr/sfw/bin/gtar
+TRUE?=	/usr/bin/true
+WGET?=	/usr/sfw/bin/wget
+
+ALL_FAKE_FLAGS=	$(DESTDIRNAME)=$(FAKE_PREFIX)
+_FAKE_SETUP=	PREFIX=$(WRKINST) $(DESTDIRNAME)=$(WRKINST)
+MAKE_ENV?=		PREFIX=$(PREFIX)
+CONFIGURE_SCRIPT?=configure
+DESTDIRNAME?=	DESTDIR
+ALL_TARGET?=	all
+INSTALL_TARGET?=install
+
+ifeq (.tar.gz,$(EXTRACT_SUFX))
+EXTRACT_CMD?=	/usr/bin/gzip
+else
+ifeq (.tar.bz2,$(EXTRACT_SUFX))
+EXTRACT_CMD?=	/usr/bin/bzip2
+endif
+endif
+
+FETCH_CMD?=		$(WGET)
+FIND_CMD?=		/usr/bin/find
+
+EXTRACT_BEFORE_ARGS?=	-dc
+EXTRACT_AFTER_ARGS?=	| $(TAR) xf -
+
+#ifdef BASEDIR
+FIND_AFTER_ARGS?=	| sort
+# Strip the leading / from the PREFIX
+FIND_NON_PREFIX?=	| grep -v $(PREFIX:/%=%)
+#else
+#FIND_AFTER_ARGS?=	| sed -e 's,^,/,'
+#endif
+
+#PKGPROTO_AFTER_ARGS=	`echo $(PREFIX) | sed -e 's,^/,,'`=$(PREFIX)
+_WRKINST=			$(WRKINST:$(PKGDIR)%=%)
+PKGPROTO_AFTER_ARGS=	| $(AWK) '{print $$1,$$2,"/" $$3 "=$(_WRKINST)/" $$3,$$4,$$5,$$5}'
+PKGADD_ARGS?=	-G
+
+# How to do nothing.
+DO_NADA?=	$(TRUE)
+
+CHECKSUM_ALGORITHMS?=	sha256
+
+# Add PKGREVISION to the package file name if it is set
+ifdef PKGREVISION
+PKGFILE?=	$(PKGNAME)_$(PKGREVISION)_$(ARCH).pkg
+else
+PKGFILE?=	$(PKGNAME)_$(ARCH).pkg
+endif
+
+# The following are required in pkginfo(4), so check for them here
+ifndef ARCH
+$(error ARCH must be defined)
+endif
+ifndef CATEGORY
+$(error CATEGORY must be defined)
+endif
+ifndef DESC
+$(error DESC must be defined)
+endif
+ifndef NAME
+$(error NAME must be defined)
+endif
+ifndef VERSION
+$(error VERSION must be defined)
+endif
+
+# Alter CLASSES if SMF is used
+ifdef SMF_MANIFEST
+CLASSES	+=	smf
+endif
+
+all: build
+
+# This target is only used by Sun make, to warn people to use GNU make
+.INIT:
+	@if [ $(MAKE) != 'gmake' ]; \
+	then \
+		echo "Fatal: Please use GNU make instead of Sun make"; \
+		echo "Alias make to gmake by typing:"; \
+		echo ""; \
+		echo "(Bourne shell)"; \
+		echo "  alias make=gmake"; \
+		echo "(C shell)"; \
+		echo "  alias make gmake"; \
+	 fi
+	 exit 1
+
+# XXX: This needs fixing since implementing categories!
+show-depends:
+ifdef BUILD_DEPENDS
+	@echo "==> $(PKGNAME) has the following build dependencies:"
+	@$(foreach dep,$(BUILD_DEPENDS),echo "  $(dep)";)
+	@$(foreach dep,$(BUILD_DEPENDS),\
+		cd $(PORTSDIR)/$(subst $(PKGNAMEPREFIX),,$(dep)) && \
+		$(MAKE) -s show-depends;)
+endif
+ifdef RUN_DEPENDS
+	@echo "==> $(PKGNAME) has the following runtime dependencies:"
+	@$(foreach dep,$(RUN_DEPENDS),echo "  $(dep)";)
+	@$(foreach dep,$(RUN_DEPENDS),\
+		cd $(PORTSDIR)/$(subst $(PKGNAMEPREFIX),,$(dep)) && \
+		$(MAKE) -s show-depends;)
+endif
+
+makesum:
+	@if [ -f $(DISTINFO) ]; then cat /dev/null > $(DISTINFO); fi
+	@cd $(DISTDIR); \
+	for alg in $(CHECKSUM_ALGORITHMS); do \
+		digest -v -a $$alg $(DISTNAME) >> $(DISTINFO); \
+	done
+
+checksum: fetch
+	@cd $(DISTDIR); \
+	for alg in $(CHECKSUM_ALGORITHMS); do \
+		cksum=`$(AWK) -v alg=$$alg -v file=$(DISTNAME) '$$1 == alg && $$2 == "(" file ")" {print $$4}' $(DISTINFO)`; \
+		mksum=`digest -a $$alg $(DISTNAME)`; \
+		if [ "$$cksum" = "$$mksum" ]; then \
+			echo "=> $$alg checksum OK for $(DISTNAME)"; \
+		else \
+			echo "=> $$alg checksum mismatch for $(DISTNAME)"; \
+			exit 1; \
+		fi; \
+	done
+
+# XXX: This needs fixing since implementing categories!
+depends:
+ifdef BUILD_DEPENDS
+	@$(foreach dep,$(BUILD_DEPENDS),\
+	pkginfo=`pkginfo -q $(dep)`; \
+	if [ $$? -eq 0 ]; then \
+		echo "==> $(PKGNAME) depends on package: $(dep) (already installed)"; \
+	else \
+		depname=$(subst $(PKGNAMEPREFIX),,$(dep)); \
+		if [ -d $(PORTSDIR)/$$depname ]; then \
+			echo "==> $(PKGNAME) depends on package: $(dep)"; \
+			cd $(PORTSDIR)/$$depname; \
+			$(MAKE) clean build && $(MAKE) installpkg; \
+			if [ $$? -eq 0 ]; then \
+				echo "==> Returning to build of $(PKGNAME)"; \
+			else \
+				exit $?; \
+			fi; \
+		else \
+			echo "==> $(PKGNAME) depends on package: $(dep) - not found"; \
+			exit 1; \
+		fi; \
+	fi;)
+endif
+
+fetch:
+	@if [ -f $(DISTDIR)/$(DISTNAME) ]; then \
+		$(DO_NADA); \
+	else \
+		echo "==> Fetching for $(PKGNAME)"; \
+		$(FETCH_CMD) -c -O $(DISTDIR)/$(DISTNAME) $(DIST_SITE); \
+		if [ ! -d $(WRKDIR) ]; then mkdir $(WRKDIR); fi; \
+	fi
+
+extract: checksum
+	@if [ -f $(WRKDIR)/.extract_done ]; then \
+		$(DO_NADA); \
+	else \
+		echo "==> Extracting for $(PKGNAME)"; \
+		if [ ! -f $(DISTDIR)/$(DISTNAME) ]; then \
+			echo "==> Error: Could not find distfile"; \
+			exit 1; \
+		fi; \
+		if [ ! -d $(WRKDIR) ]; then mkdir $(WRKDIR); fi; \
+		cd $(WRKDIR) && $(EXTRACT_CMD) $(EXTRACT_BEFORE_ARGS) $(DISTDIR)/$(DISTNAME) $(EXTRACT_AFTER_ARGS); \
+		if [ $$? -eq 0 ]; \
+		then \
+			$(DO_NADA); \
+			touch $(WRKDIR)/.extract_done; \
+		else \
+			exit 1; \
+		fi; \
+	fi
+
+# XXX: patch yet to be implemented!
+patch: extract
+	@$(DO_NADA)
+
+configure: depends patch
+ifdef HAS_CONFIGURE
+	@if [ -f $(WRKDIR)/.configure_done ]; then \
+		$(DO_NADA); \
+	else \
+		echo "==> Configuring for $(PKGNAME)"; \
+		cd $(WRKSRC) && ./$(CONFIGURE_SCRIPT) $(CONFIGURE_ARGS); \
+		touch $(WRKDIR)/.configure_done; \
+	fi
+endif
+
+build: configure
+ifndef NO_BUILD
+	@if [ -f $(WRKDIR)/.build_done ]; then \
+		$(DO_NADA); \
+	else \
+		echo "==> Building for $(PKGNAME)"; \
+		cd $(WRKSRC) && $(MAKE) $(MAKE_ARGS) $(ALL_TARGET); \
+		touch $(WRKDIR)/.build_done; \
+	fi
+endif
+
+fakeinstall: build
+	@if [ -f $(WRKDIR)/.fakeinstall_done ]; then \
+		$(DO_NADA); \
+	else \
+		echo "==> Running fake install for $(PKGNAME)"; \
+		if [ ! -d $(WRKINST) ]; then mkdir $(WRKINST); fi; \
+		cd $(WRKSRC) && $(ENV) $(MAKE_ENV) $(_FAKE_SETUP) $(MAKE) $(ALL_FAKE_FLAGS) $(INSTALL_TARGET) && \
+		touch $(WRKDIR)/.fakeinstall_done; \
+	fi
+
+install: fakeinstall
+pkg: install $(PKGFILE)
+pkginfo: $(PKGINFO)
+prototype: $(PROTOTYPE)
+
+$(PKGINFO):
+	@if [ -f $@ ]; then rm $@; fi
+	@echo "PKG=$(PKGNAMEPREFIX)$(NAME)" >> $@
+	@echo "NAME=$(DESC)" >> $@
+	@echo "VERSION=$(VERSION)" >> $@
+	@echo "CATEGORY=$(CATEGORY)" >> $@
+	@echo "ARCH=$(ARCH)" >> $@
+ifdef PKGLONGDESC
+	@echo "DESC=$(LONGDESC)" >> $@
+endif
+ifdef VENDOR
+	@echo "VENDOR=$(VENDOR)" >> $@
+endif
+ifdef EMAIL
+	@echo "EMAIL=$(EMAIL)" >> $@
+endif
+	@echo "CLASSES=$(CLASSES)" >> $@
+ifdef ISTATES
+	@echo "ISTATES=$(ISTATES)" >> $@
+endif
+ifdef RSTATES
+	@echo "RSTATES=$(RSTATES)" >> $@
+endif
+ifdef BASEDIR
+	@echo "BASEDIR=$(BASEDIR)" >> $@
+endif
+
+$(DEPENDFILE):
+ifdef RUN_DEPENDS
+	@$(foreach pkg,$(RUN_DEPENDS),echo "P $(pkg) $(pkg)") >> $@
+endif
+
+$(PROTOTYPE):
+	@if [ -f $@ ]; then rm $@; fi
+	@echo "!search $(WRKDIR)" >> $@
+	@echo "i pkginfo" >> $@
+ifdef RUN_DEPENDS
+	@echo "i depend" >> $@
+endif
+ifdef SMF_MANIFEST
+	@echo "i i.smf=$(PKGDIR)/smf/i.smf" >> $@
+endif
+ifdef INSTALL_SCRIPTS
+	@$(foreach script,$(INSTALL_SCRIPTS),echo i $(script) >> $@;)
+endif
+ifdef REMOVE_SCRIPTS
+	@$(foreach script,$(REMOVE_SCRIPTS),echo i $(script) >> $@;)
+endif
+#
+# Find items outside of PREFIX first
+#
+	@echo "!search $(WRKINST)" >> $@
+	@cd $(WRKINST); $(FIND_CMD) * $(FIND_AFTER_ARGS) $(FIND_NON_PREFIX) | \
+		pkgproto $(PKGPROTO_AFTER_ARGS) >> $@
+#
+# Then find items within PREFIX
+#
+	@echo "!search $(WRKINST)$(PREFIX)" >> $@
+	@cd $(WRKINST)$(PREFIX); $(FIND_CMD) * $(FIND_AFTER_ARGS) | \
+		pkgproto >> $@
+ifdef EXTRA_FILES
+	@echo "!search $(PKGDIR)/files" >> $@
+	@$(foreach file,$(EXTRA_FILES), \
+		echo "$(subst =, ,$(file))" | \
+		$(AWK) '{ print "f none",$$2 "=$(FILESDIR:$(PKGDIR)%=%/)" $$1,"0644 root bin" }' >> $@;)
+endif
+ifdef SMF_MANIFEST
+	@svccfg validate $(PKGDIR)/smf/$(SMF_MANIFEST); \
+	if [ $$? -gt 0 ]; then \
+		echo "===> Error: SMF manifest did not validate."; \
+		exit $$?; \
+	fi
+	@echo "!search $(PKGDIR)" >> $@
+ifdef SMF_METHOD
+	@echo "d smf /lib ? ? ?" >> $@
+	@echo "d smf /lib/svc ? ? ?" >> $@
+	@echo "d smf /lib/svc/method ? ? ?" >> $@
+	@echo "f smf /lib/svc/method/$(SMF_METHOD:%.sh=%)=/smf/$(SMF_METHOD) 0555 root bin" >> $@
+endif
+	@echo "d smf /var ? ? ?" >> $@
+	@echo "d smf /var/svc ? ? ?" >> $@
+	@echo "d smf /var/svc/manifest ? ? ?" >> $@
+	@echo "d smf /var/svc/manifest/site ? ? ?" >> $@
+	@echo "f smf /var/svc/manifest/site/$(SMF_MANIFEST)=/smf/$(SMF_MANIFEST) 0444 root sys" >> $@
+endif
+	@echo "==> Prototype has been generated. Please check and adjust as necessary."
+
+#		pkgmk -o -f $(PROTOTYPE) -d $(SPOOLDIR) -r $(PKGDIR) -b $(WRKINST)$(BASEDIR) -a $(ARCH)
+#		pkgmk -o -f $(PROTOTYPE) -d $(SPOOLDIR) -a $(ARCH)
+$(PKGFILE): $(PKGINFO) $(DEPENDFILE)
+	@if [ ! -d $(SPOOLDIR) ]; then mkdir $(SPOOLDIR); fi
+	@echo "==> Generating package"
+	@cd $(PKGDIR) && \
+		pkgmk -o -f $(PROTOTYPE) -d $(SPOOLDIR) -b $(WRKINST)$(PREFIX) -r $(PKGDIR) -a $(ARCH)
+	@if [ ! -d $(PKGSTORE) ]; then mkdir $(PKGSTORE); fi
+	@pkgtrans -s $(SPOOLDIR) $(PKGSTORE)/$(PKGFILE) $(PKGNAMEPREFIX)$(NAME)
+	@echo "==> Package has been created in $(PKGSTORE)."
+
+# This target will only build the package if it doesn't yet exist.
+# The pkg target will always rebuild.
+check-pkg:
+	@if [ ! -f $(PKGSTORE)/$(PKGFILE) ]; then $(MAKE) pkg; fi
+
+installpkg: check-pkg
+	@pkginfo -q $(PKGNAMEPREFIX)$(NAME); \
+	if [ $$? -eq 0 ]; then \
+		echo "===> $(PKGNAME) is already installed."; \
+	else \
+		if [ -f $(PKGSTORE)/$(PKGFILE) ]; then \
+			pfexec pkgadd $(PKGADD_ARGS) -d $(PKGSTORE)/$(PKGFILE) $(PKGNAMEPREFIX)$(NAME); \
+			if [ $$? -gt 0 ]; then \
+				echo "===> Install of $(PKGNAME) FAILED."; \
+				exit 1; \
+			else \
+				echo "==> $(PKGNAME) installed successfully."; \
+			fi; \
+		else \
+			echo "===> Error: $(PKGFILE) not found"; \
+		fi; \
+	fi
+
+reconfigure:
+	@if [ -f $(WRKDIR)/.configure_done ]; then rm $(WRKDIR)/.configure_done; fi
+	@$(MAKE) configure
+
+rebuild:
+	@if [ -f $(WRKDIR)/.build_done ]; then rm $(WRKDIR)/.build_done; fi
+	@$(MAKE) build
+
+clean:
+	@echo "==> Cleaning for $(PKGNAME)"
+	@if [ -f $(PKGINFO) ]; then rm $(PKGINFO); fi
+	@if [ -d $(SPOOLDIR) ]; then rm -rf $(SPOOLDIR); fi
+	@if [ -d $(WRKDIR) ]; then rm -rf $(WRKDIR); fi
+
+showvar:
+	@echo "$(var)=$($(var))"
+
+test:
+	@echo $(FILESDIR:$(PKGDIR)%=%)
+
+.PHONY: $(PKGINFO) $(PROTOTYPE)
