@@ -301,7 +301,7 @@ fetch:
 		$(DO_NADA); \
 	else \
 		echo "==> Fetching for $(PKGNAME)"; \
-		$(FETCH_CMD) -c -O $(DISTDIR)/$(DISTNAME) $(DIST_SITE); \
+		$(FETCH_CMD) -c -O $(DISTDIR)/$(DISTNAME) $(DIST_SITE)$(DISTNAME); \
 		if [ ! -d $(WRKDIR) ]; then mkdir $(WRKDIR); fi; \
 	fi
 
