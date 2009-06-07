@@ -1,0 +1,52 @@
+!search /export/pkg/devel/apr-util/work
+i pkginfo
+!search /export/pkg/devel/apr-util/work/root/usr/local
+d none bin 0755 root bin
+f none bin/apu-1-config 0755 root bin
+d none include 0755 root bin
+d none include/apr-1 0755 root bin
+f none include/apr-1/apr_anylock.h 0644 root bin
+f none include/apr-1/apr_base64.h 0644 root bin
+f none include/apr-1/apr_buckets.h 0644 root bin
+f none include/apr-1/apr_date.h 0644 root bin
+f none include/apr-1/apr_dbd.h 0644 root bin
+f none include/apr-1/apr_dbm.h 0644 root bin
+f none include/apr-1/apr_hooks.h 0644 root bin
+f none include/apr-1/apr_ldap.h 0644 root bin
+f none include/apr-1/apr_ldap_init.h 0644 root bin
+f none include/apr-1/apr_ldap_option.h 0644 root bin
+f none include/apr-1/apr_ldap_rebind.h 0644 root bin
+f none include/apr-1/apr_ldap_url.h 0644 root bin
+f none include/apr-1/apr_md4.h 0644 root bin
+f none include/apr-1/apr_md5.h 0644 root bin
+f none include/apr-1/apr_memcache.h 0644 root bin
+f none include/apr-1/apr_optional.h 0644 root bin
+f none include/apr-1/apr_optional_hooks.h 0644 root bin
+f none include/apr-1/apr_queue.h 0644 root bin
+f none include/apr-1/apr_reslist.h 0644 root bin
+f none include/apr-1/apr_rmm.h 0644 root bin
+f none include/apr-1/apr_sdbm.h 0644 root bin
+f none include/apr-1/apr_sha1.h 0644 root bin
+f none include/apr-1/apr_strmatch.h 0644 root bin
+f none include/apr-1/apr_thread_pool.h 0644 root bin
+f none include/apr-1/apr_uri.h 0644 root bin
+f none include/apr-1/apr_uuid.h 0644 root bin
+f none include/apr-1/apr_xlate.h 0644 root bin
+f none include/apr-1/apr_xml.h 0644 root bin
+f none include/apr-1/apu.h 0644 root bin
+f none include/apr-1/apu_version.h 0644 root bin
+f none include/apr-1/apu_want.h 0644 root bin
+d none lib 0755 root bin
+d none lib/apr-util-1 0755 root bin
+f none lib/apr-util-1/apr_dbd_pgsql-1.so 0755 root bin
+f none lib/apr-util-1/apr_dbd_pgsql.a 0644 root bin
+f none lib/apr-util-1/apr_dbd_pgsql.la 0755 root bin
+s none lib/apr-util-1/apr_dbd_pgsql.so=apr_dbd_pgsql-1.so
+f none lib/aprutil.exp 0644 root bin
+f none lib/libaprutil-1.a 0644 root bin
+f none lib/libaprutil-1.la 0755 root bin
+s none lib/libaprutil-1.so=libaprutil-1.so.0.3.7
+s none lib/libaprutil-1.so.0=libaprutil-1.so.0.3.7
+f none lib/libaprutil-1.so.0.3.7 0755 root bin
+d none lib/pkgconfig 0755 root bin
+f none lib/pkgconfig/apr-util-1.pc 0644 root bin

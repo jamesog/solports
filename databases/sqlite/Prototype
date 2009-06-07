@@ -1,0 +1,18 @@
+!search /export/pkg/databases/sqlite/work
+i pkginfo
+!search /export/pkg/databases/sqlite/work/root
+d none /usr=/work/root/usr 0755 root bin
+!search /export/pkg/databases/sqlite/work/root/usr/local
+d none bin 0755 root bin
+f none bin/sqlite3 0755 root bin
+d none include 0755 root bin
+f none include/sqlite3.h 0644 root bin
+f none include/sqlite3ext.h 0644 root bin
+d none lib 0755 root bin
+f none lib/libsqlite3.a 0644 root bin
+f none lib/libsqlite3.la 0755 root bin
+s none lib/libsqlite3.so=libsqlite3.so.0.8.6
+s none lib/libsqlite3.so.0=libsqlite3.so.0.8.6
+f none lib/libsqlite3.so.0.8.6 0755 root bin
+d none lib/pkgconfig 0755 root bin
+f none lib/pkgconfig/sqlite3.pc 0644 root bin

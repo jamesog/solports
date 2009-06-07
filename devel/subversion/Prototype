@@ -1,0 +1,135 @@
+!search /export/pkg/devel/subversion/work
+i pkginfo
+!search /export/pkg/devel/subversion/work/root/usr/local
+d none bin 0755 root bin
+f none bin/svn 0755 root bin
+f none bin/svnadmin 0755 root bin
+f none bin/svndumpfilter 0755 root bin
+f none bin/svnlook 0755 root bin
+f none bin/svnserve 0755 root bin
+f none bin/svnsync 0755 root bin
+f none bin/svnversion 0755 root bin
+d none include 0755 root bin
+d none include/subversion-1 0755 root bin
+f none include/subversion-1/mod_authz_svn.h 0644 root bin
+f none include/subversion-1/mod_dav_svn.h 0644 root bin
+f none include/subversion-1/svn-revision.txt 0644 root bin
+f none include/subversion-1/svn_auth.h 0644 root bin
+f none include/subversion-1/svn_base64.h 0644 root bin
+f none include/subversion-1/svn_checksum.h 0644 root bin
+f none include/subversion-1/svn_client.h 0644 root bin
+f none include/subversion-1/svn_cmdline.h 0644 root bin
+f none include/subversion-1/svn_compat.h 0644 root bin
+f none include/subversion-1/svn_config.h 0644 root bin
+f none include/subversion-1/svn_ctype.h 0644 root bin
+f none include/subversion-1/svn_dav.h 0644 root bin
+f none include/subversion-1/svn_delta.h 0644 root bin
+f none include/subversion-1/svn_diff.h 0644 root bin
+f none include/subversion-1/svn_dirent_uri.h 0644 root bin
+f none include/subversion-1/svn_dso.h 0644 root bin
+f none include/subversion-1/svn_error.h 0644 root bin
+f none include/subversion-1/svn_error_codes.h 0644 root bin
+f none include/subversion-1/svn_fs.h 0644 root bin
+f none include/subversion-1/svn_hash.h 0644 root bin
+f none include/subversion-1/svn_io.h 0644 root bin
+f none include/subversion-1/svn_iter.h 0644 root bin
+f none include/subversion-1/svn_md5.h 0644 root bin
+f none include/subversion-1/svn_mergeinfo.h 0644 root bin
+f none include/subversion-1/svn_nls.h 0644 root bin
+f none include/subversion-1/svn_opt.h 0644 root bin
+f none include/subversion-1/svn_path.h 0644 root bin
+f none include/subversion-1/svn_pools.h 0644 root bin
+f none include/subversion-1/svn_props.h 0644 root bin
+f none include/subversion-1/svn_quoprint.h 0644 root bin
+f none include/subversion-1/svn_ra.h 0644 root bin
+f none include/subversion-1/svn_ra_svn.h 0644 root bin
+f none include/subversion-1/svn_repos.h 0644 root bin
+f none include/subversion-1/svn_sorts.h 0644 root bin
+f none include/subversion-1/svn_string.h 0644 root bin
+f none include/subversion-1/svn_subst.h 0644 root bin
+f none include/subversion-1/svn_time.h 0644 root bin
+f none include/subversion-1/svn_types.h 0644 root bin
+f none include/subversion-1/svn_user.h 0644 root bin
+f none include/subversion-1/svn_utf.h 0644 root bin
+f none include/subversion-1/svn_version.h 0644 root bin
+f none include/subversion-1/svn_wc.h 0644 root bin
+f none include/subversion-1/svn_xml.h 0644 root bin
+d none lib 0755 root bin
+f none lib/libsvn_client-1.a 0644 root bin
+f none lib/libsvn_client-1.la 0755 root bin
+s none lib/libsvn_client-1.so=libsvn_client-1.so.0.0.0
+s none lib/libsvn_client-1.so.0=libsvn_client-1.so.0.0.0
+f none lib/libsvn_client-1.so.0.0.0 0755 root bin
+f none lib/libsvn_delta-1.a 0644 root bin
+f none lib/libsvn_delta-1.la 0755 root bin
+s none lib/libsvn_delta-1.so=libsvn_delta-1.so.0.0.0
+s none lib/libsvn_delta-1.so.0=libsvn_delta-1.so.0.0.0
+f none lib/libsvn_delta-1.so.0.0.0 0755 root bin
+f none lib/libsvn_diff-1.a 0644 root bin
+f none lib/libsvn_diff-1.la 0755 root bin
+s none lib/libsvn_diff-1.so=libsvn_diff-1.so.0.0.0
+s none lib/libsvn_diff-1.so.0=libsvn_diff-1.so.0.0.0
+f none lib/libsvn_diff-1.so.0.0.0 0755 root bin
+f none lib/libsvn_fs-1.a 0644 root bin
+f none lib/libsvn_fs-1.la 0755 root bin
+s none lib/libsvn_fs-1.so=libsvn_fs-1.so.0.0.0
+s none lib/libsvn_fs-1.so.0=libsvn_fs-1.so.0.0.0
+f none lib/libsvn_fs-1.so.0.0.0 0755 root bin
+f none lib/libsvn_fs_fs-1.a 0644 root bin
+f none lib/libsvn_fs_fs-1.la 0755 root bin
+s none lib/libsvn_fs_fs-1.so=libsvn_fs_fs-1.so.0.0.0
+s none lib/libsvn_fs_fs-1.so.0=libsvn_fs_fs-1.so.0.0.0
+f none lib/libsvn_fs_fs-1.so.0.0.0 0755 root bin
+f none lib/libsvn_fs_util-1.a 0644 root bin
+f none lib/libsvn_fs_util-1.la 0755 root bin
+s none lib/libsvn_fs_util-1.so=libsvn_fs_util-1.so.0.0.0
+s none lib/libsvn_fs_util-1.so.0=libsvn_fs_util-1.so.0.0.0
+f none lib/libsvn_fs_util-1.so.0.0.0 0755 root bin
+f none lib/libsvn_ra-1.a 0644 root bin
+f none lib/libsvn_ra-1.la 0755 root bin
+s none lib/libsvn_ra-1.so=libsvn_ra-1.so.0.0.0
+s none lib/libsvn_ra-1.so.0=libsvn_ra-1.so.0.0.0
+f none lib/libsvn_ra-1.so.0.0.0 0755 root bin
+f none lib/libsvn_ra_local-1.a 0644 root bin
+f none lib/libsvn_ra_local-1.la 0755 root bin
+s none lib/libsvn_ra_local-1.so=libsvn_ra_local-1.so.0.0.0
+s none lib/libsvn_ra_local-1.so.0=libsvn_ra_local-1.so.0.0.0
+f none lib/libsvn_ra_local-1.so.0.0.0 0755 root bin
+f none lib/libsvn_ra_neon-1.a 0644 root bin
+f none lib/libsvn_ra_neon-1.la 0755 root bin
+s none lib/libsvn_ra_neon-1.so=libsvn_ra_neon-1.so.0.0.0
+s none lib/libsvn_ra_neon-1.so.0=libsvn_ra_neon-1.so.0.0.0
+f none lib/libsvn_ra_neon-1.so.0.0.0 0755 root bin
+f none lib/libsvn_ra_svn-1.a 0644 root bin
+f none lib/libsvn_ra_svn-1.la 0755 root bin
+s none lib/libsvn_ra_svn-1.so=libsvn_ra_svn-1.so.0.0.0
+s none lib/libsvn_ra_svn-1.so.0=libsvn_ra_svn-1.so.0.0.0
+f none lib/libsvn_ra_svn-1.so.0.0.0 0755 root bin
+f none lib/libsvn_repos-1.a 0644 root bin
+f none lib/libsvn_repos-1.la 0755 root bin
+s none lib/libsvn_repos-1.so=libsvn_repos-1.so.0.0.0
+s none lib/libsvn_repos-1.so.0=libsvn_repos-1.so.0.0.0
+f none lib/libsvn_repos-1.so.0.0.0 0755 root bin
+f none lib/libsvn_subr-1.a 0644 root bin
+f none lib/libsvn_subr-1.la 0755 root bin
+s none lib/libsvn_subr-1.so=libsvn_subr-1.so.0.0.0
+s none lib/libsvn_subr-1.so.0=libsvn_subr-1.so.0.0.0
+f none lib/libsvn_subr-1.so.0.0.0 0755 root bin
+f none lib/libsvn_wc-1.a 0644 root bin
+f none lib/libsvn_wc-1.la 0755 root bin
+s none lib/libsvn_wc-1.so=libsvn_wc-1.so.0.0.0
+s none lib/libsvn_wc-1.so.0=libsvn_wc-1.so.0.0.0
+f none lib/libsvn_wc-1.so.0.0.0 0755 root bin
+d none share 0755 root bin
+d none share/man 0755 root bin
+d none share/man/man1 0755 root bin
+f none share/man/man1/svn.1 0644 root bin
+f none share/man/man1/svnadmin.1 0644 root bin
+f none share/man/man1/svndumpfilter.1 0644 root bin
+f none share/man/man1/svnlook.1 0644 root bin
+f none share/man/man1/svnsync.1 0644 root bin
+f none share/man/man1/svnversion.1 0644 root bin
+d none share/man/man5 0755 root bin
+f none share/man/man5/svnserve.conf.5 0644 root bin
+d none share/man/man8 0755 root bin
+f none share/man/man8/svnserve.8 0644 root bin

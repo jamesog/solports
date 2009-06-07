@@ -1,4 +1,4 @@
-NAME=		apache
+NAME=		apache22
 VERSION=	2.2.11
 DESC=		Apache Web Server
 ARCHES=		sparc i386
@@ -14,6 +14,8 @@ HAS_CONFIGURE=	yes
 CONFIGURE_ARGS=	--prefix=$(PREFIX) \
 		--enable-layout=FreeBSD \
 		--enable-http
+
+WITH_SSL?=	yes
 
 ifdef WITH_SSL
 CONFIGURE_ARGS+=--enable-ssl
