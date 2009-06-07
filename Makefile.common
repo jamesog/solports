@@ -288,14 +288,15 @@ checksum: fetch
 depends:
 ifdef BUILD_DEPENDS
 	@$(foreach dep,$(BUILD_DEPENDS),\
-	pkginfo=`pkginfo -q $(dep)`; \
+	cat=$(word 1,$(subst :, ,$(dep))); \
+	port=$(word 2,$(subst :, ,$(dep))); \
+	pkginfo=`pkginfo -q $(PKGPREFIX)$$port`; \
 	if [ $$? -eq 0 ]; then \
-		echo "==> $(PKGNAME) depends on package: $(dep) (already installed)"; \
+		echo "==> $(PKGNAME) depends on package: $$port (already installed)"; \
 	else \
-		depname=$(subst $(PKGNAMEPREFIX),,$(dep)); \
-		if [ -d $(PORTSDIR)/$$depname ]; then \
-			echo "==> $(PKGNAME) depends on package: $(dep)"; \
-			cd $(PORTSDIR)/$$depname; \
+		if [ -d $(PORTSDIR)/$$cat/$$port ]; then \
+			echo "==> $(PKGNAME) depends on package: $$port"; \
+			cd $(PORTSDIR)/$$cat/$$port; \
 			$(MAKE) clean build && $(MAKE) installpkg; \
 			if [ $$? -eq 0 ]; then \
 				echo "==> Returning to build of $(PKGNAME)"; \
@@ -303,7 +304,7 @@ ifdef BUILD_DEPENDS
 				exit $?; \
 			fi; \
 		else \
-			echo "==> $(PKGNAME) depends on package: $(dep) - not found"; \
+			echo "==> $(PKGNAME) depends on package: $$port - not found"; \
 			exit 1; \
 		fi; \
 	fi;)
@@ -421,7 +422,12 @@ endif
 
 $(DEPENDFILE):
 ifdef RUN_DEPENDS
-	@$(foreach pkg,$(RUN_DEPENDS),echo "P $(pkg) $(pkg)") >> $@
+	@if [ -f $@ ]; then rm $@; fi
+	@$(foreach dep,$(RUN_DEPENDS),\
+	cat=$(word 1,$(subst :, ,$(dep))); \
+	pkg=$(word 2,$(subst :, ,$(dep))); \
+	desc=`$(MAKE) -s -C $(PORTSDIR)/$$cat/$$pkg showvar var=DESC | sed -e 's/DESC=//'`; \
+	echo "P $(PKGPREFIX)$$pkg $$desc" >> $@;)
 endif
 
 $(PROTOTYPE):
@@ -530,7 +536,4 @@ clean:
 showvar:
 	@echo "$(var)=$($(var))"
 
-test:
-	@echo $(FILESDIR:$(PKGDIR)%=%)
-
-.PHONY: $(PKGINFO) $(PROTOTYPE)
+.PHONY: $(PKGINFO) $(PROTOTYPE) $(DEPENDFILE)
