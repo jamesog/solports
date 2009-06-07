@@ -140,8 +140,10 @@ ISAINFO=$(shell isainfo)
 #endif
 endif
 
+ifneq ($(CURDIR),$(PKGDIR))
 ifeq (,$(findstring $(ARCH),$(ARCHES)))
 $(error $(PKGNAME) does not run on the $(ARCH) platform.)
+endif
 endif
 
 CC:=	gcc
@@ -205,6 +207,7 @@ else
 PKGFILE?=	$(PKGNAME)_$(ARCH).pkg
 endif
 
+ifneq ($(CURDIR),$(PKGDIR))
 # The following are required in pkginfo(4), so check for them here
 ifndef ARCH
 $(error ARCH must be defined)
@@ -220,6 +223,7 @@ $(error NAME must be defined)
 endif
 ifndef VERSION
 $(error VERSION must be defined)
+endif
 endif
 
 # Alter CLASSES if SMF is used
