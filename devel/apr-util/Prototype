@@ -1,5 +1,6 @@
 !search /export/pkg/devel/apr-util/work
 i pkginfo
+i depend
 !search /export/pkg/devel/apr-util/work/root/usr/local
 d none bin 0755 root bin
 f none bin/apu-1-config 0755 root bin

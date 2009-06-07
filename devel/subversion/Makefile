@@ -8,6 +8,9 @@ BASEDIR=	/usr/local
 
 DIST_SITE=	http://subversion.tigris.org/downloads/
 
+BUILD_DEPENDS=	devel:apr devel:apr-util www:neon28
+RUN_DEPENDS=	$(BUILD_DEPENDS)
+
 HAS_CONFIGURE=	yes
 CONFIGURE_ARGS=	--prefix=$(PREFIX) \
 		--with-apr=$(PREFIX)/bin/apr-1-config \

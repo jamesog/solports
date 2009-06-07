@@ -1,6 +1,6 @@
 NAME=		apr
 VERSION=	1.3.3
-DESC=		Apache Portable Runtime Library
+DESC=		Apache Portable Runtime Core Library
 ARCHES=		sparc i386
 CATEGORY=	devel
 MAINTAINER=	jamesog@solports.org

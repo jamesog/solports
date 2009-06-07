@@ -1,5 +1,6 @@
 !search /export/pkg/devel/subversion/work
 i pkginfo
+i depend
 !search /export/pkg/devel/subversion/work/root/usr/local
 d none bin 0755 root bin
 f none bin/svn 0755 root bin
