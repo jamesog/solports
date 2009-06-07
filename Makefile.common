@@ -23,7 +23,7 @@
 #
 # OPTIONAL VARIABLES
 #
-# PKGNAMEPREFIX		- Short code prefixed to package name
+# PKGPREFIX			- Short code prefixed to package name
 #					  Default: PORT
 # PKGREVISION		- The package revision
 # LONGDESC			- Longer description of the package (<255 chars)
@@ -99,12 +99,10 @@
 #####
 PORTSDIR?=	/export/pkg
 PKGSTORE?=	$(PORTSDIR)/packages
-PKGNAMEPREFIX?=	PORT
+PKGPREFIX?=	PORT
 DISTDIR?=	$(PORTSDIR)/distfiles
 
 # Package defaults
-#PKGNAME?=	$(PKGNAMEPREFIX)$(NAME)$(PKGNAMESUFFIX)-$(VERSION)
-#PKGDIR?=	$(PORTSDIR)/$(CATEGORY)/$(NAME)$(PKGNAMESUFFIX)
 PKGNAME?=	$(NAME)$(PKGNAMESUFFIX)-$(VERSION)
 PKGDIR?=	$(CURDIR)
 SPOOLDIR?=	$(PKGDIR)/spool
@@ -392,7 +390,7 @@ CATEGORY:=$(subst $(space),$(comma),$(CATEGORY))
 
 $(PKGINFO):
 	@if [ -f $@ ]; then rm $@; fi
-	@echo "PKG=$(PKGNAMEPREFIX)$(NAME)" >> $@
+	@echo "PKG=$(PKGPREFIX)$(NAME)" >> $@
 	@echo "NAME=$(DESC)" >> $@
 	@echo "VERSION=$(VERSION)" >> $@
 	@echo "CATEGORY=application,$(CATEGORY)" >> $@
@@ -485,7 +483,7 @@ $(PKGFILE): $(PKGINFO) $(DEPENDFILE)
 	@cd $(PKGDIR) && \
 		pkgmk -o -f $(PROTOTYPE) -d $(SPOOLDIR) -b $(WRKINST)$(PREFIX) -r $(PKGDIR) -a $(ARCH)
 	@if [ ! -d $(PKGSTORE) ]; then mkdir $(PKGSTORE); fi
-	@pkgtrans -s $(SPOOLDIR) $(PKGSTORE)/$(PKGFILE) $(PKGNAMEPREFIX)$(NAME)
+	@pkgtrans -s $(SPOOLDIR) $(PKGSTORE)/$(PKGFILE) $(PKGPREFIX)$(NAME)
 	@echo "==> Package has been created in $(PKGSTORE)."
 
 # This target will only build the package if it doesn't yet exist.
@@ -494,12 +492,12 @@ check-pkg:
 	@if [ ! -f $(PKGSTORE)/$(PKGFILE) ]; then $(MAKE) pkg; fi
 
 installpkg: check-pkg
-	@pkginfo -q $(PKGNAMEPREFIX)$(NAME); \
+	@pkginfo -q $(PKGPREFIX)$(NAME); \
 	if [ $$? -eq 0 ]; then \
 		echo "===> $(PKGNAME) is already installed."; \
 	else \
 		if [ -f $(PKGSTORE)/$(PKGFILE) ]; then \
-			pfexec pkgadd $(PKGADD_ARGS) -d $(PKGSTORE)/$(PKGFILE) $(PKGNAMEPREFIX)$(NAME); \
+			pfexec pkgadd $(PKGADD_ARGS) -d $(PKGSTORE)/$(PKGFILE) $(PKGPREFIX)$(NAME); \
 			if [ $$? -gt 0 ]; then \
 				echo "===> Install of $(PKGNAME) FAILED."; \
 				exit 1; \
