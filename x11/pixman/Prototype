@@ -1,0 +1,15 @@
+!search /export/pkg/x11/pixman/work
+i pkginfo
+!search /export/pkg/x11/pixman/work/root/usr/local
+d none include 0755 root bin
+d none include/pixman-1 0755 root bin
+f none include/pixman-1/pixman-version.h 0644 root bin
+f none include/pixman-1/pixman.h 0644 root bin
+d none lib 0755 root bin
+f none lib/libpixman-1.a 0644 root bin
+f none lib/libpixman-1.la 0755 root bin
+s none lib/libpixman-1.so=libpixman-1.so.0.15.12
+s none lib/libpixman-1.so.0=libpixman-1.so.0.15.12
+f none lib/libpixman-1.so.0.15.12 0755 root bin
+d none lib/pkgconfig 0755 root bin
+f none lib/pkgconfig/pixman-1.pc 0644 root bin

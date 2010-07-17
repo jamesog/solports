@@ -1,0 +1,33 @@
+!search /export/pkg/devel/libevent/work
+i pkginfo
+!search /export/pkg/devel/libevent/work/root/usr/local
+d none bin 0755 root bin
+f none bin/event_rpcgen.py 0755 root bin
+d none include 0755 root bin
+f none include/evdns.h 0644 root bin
+f none include/event-config.h 0644 root bin
+f none include/event.h 0644 root bin
+f none include/evhttp.h 0644 root bin
+f none include/evrpc.h 0644 root bin
+f none include/evutil.h 0644 root bin
+d none lib 0755 root bin
+s none lib/libevent_core-1.4.so.2=libevent_core-1.4.so.2.1.3
+f none lib/libevent_core-1.4.so.2.1.3 0755 root bin
+f none lib/libevent_core.a 0644 root bin
+f none lib/libevent_core.la 0755 root bin
+s none lib/libevent_core.so=libevent_core-1.4.so.2.1.3
+s none lib/libevent_extra-1.4.so.2=libevent_extra-1.4.so.2.1.3
+f none lib/libevent_extra-1.4.so.2.1.3 0755 root bin
+f none lib/libevent_extra.a 0644 root bin
+f none lib/libevent_extra.la 0755 root bin
+s none lib/libevent_extra.so=libevent_extra-1.4.so.2.1.3
+s none lib/libevent-1.4.so.2=libevent-1.4.so.2.1.3
+f none lib/libevent-1.4.so.2.1.3 0755 root bin
+f none lib/libevent.a 0644 root bin
+f none lib/libevent.la 0755 root bin
+s none lib/libevent.so=libevent-1.4.so.2.1.3
+d none share 0755 root bin
+d none share/man 0755 root bin
+d none share/man/man3 0755 root bin
+f none share/man/man3/evdns.3 0644 root bin
+f none share/man/man3/event.3 0644 root bin

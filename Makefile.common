@@ -35,14 +35,17 @@
 # REMOVE_SCRIPTS	- Scripts to run on remove
 # SMF_MANIFEST		- SMF manifest to install
 # SMF_METHOD		- SMF method to install (requires SMF_MANIFEST)
-# BUILD_DEPENDS		- Space-separated list of packages to required to build this one
-# RUN_DEPENDS		- Space-separated list of packages to required for this to run
+# BUILD_DEPENDS		- Space-separated list of packages to required to build
+# RUN_DEPENDS		- Space-separated list of packages to required to run
+# CONFLICTS			- Space-separated list of packages which conflict
+# EXTRA_FILES		- List of files to be copied into the package
 #
 # The following affect build options:
 #
 # PREFIX			- Install prefix for package files. Usually BASEDIR.
 #					  Default: /usr/local if BASEDIR unset
 #					           $(BASEDIR) if BASEDIR is set
+# NO_BUILD			- If set, do not attempt to call make(1) at any stage.
 # HAS_CONFIGURE		- If set, the software uses a configure script. The
 #					  configure stage will not do anything if this is
 #					  not set.
@@ -115,9 +118,11 @@ WRKDIR?=	$(PKGDIR)/work
 WRKSRC?=	$(WRKDIR)/$(NAME)-$(VERSION)
 WRKINST?=	$(WRKDIR)/root
 FILESDIR?=	$(PKGDIR)/files
+SMFDIR?=	$(PKGDIR)/smf
 DISTINFO?=	$(PKGDIR)/distinfo
 CLASSES?=	none
-DISTNAME?=	$(NAME)-$(VERSION)$(EXTRACT_SUFX)
+DISTNAME?=	$(NAME)-$(VERSION)
+DISTFILES?=	$(DISTNAME)$(EXTRACT_SUFX)
 EXTRACT_SUFX?=	.tar.gz
 ifndef BASEDIR
 PREFIX?=	/usr/local
@@ -127,17 +132,27 @@ endif
 CONFIGURE_ARGS?=--prefix=$(PREFIX)
 FAKE_PREFIX?=$(WRKINST)
 
+CHECKINSTALL?=	$(PKGDIR)/checkinstall
+PREINSTALL?=	$(PKGDIR)/preinstall
+POSTINSTALL?=	$(PKGDIR)/postinstall
+PREREMOVE?=		$(PKGDIR)/preremove
+POSTREMOVE?=	$(PKGDIR)/postremove
+
+TMPPROTOTYPE?=	$(WRKDIR)/.Prototype.mktmp
+
 # Default maintainer
 MAINTAINER?=	ports@solports.org
 
 # Get the machine arch
 ifndef ARCH
 ARCH=	$(shell uname -p)
-ISAINFO=$(shell isainfo)
-# XXX: Add proper code to check for 64-bitness
-#ifneq (,$(filter amd64 sparcv9,$(ISAINFO)))
-#CFLAGS+=	-m64
-#endif
+ISAINFO_B=$(shell isainfo -b)
+CFLAGS+=	-m$(ISAINFO_B)
+CXXFLAGS+=	-m$(ISAINFO_B)
+endif
+
+ifneq (,$(filter amd64 sparcv9,$(ARCH)))
+ARCH_IS_64BIT=	true
 endif
 
 ifneq ($(CURDIR),$(PKGDIR))
@@ -146,7 +161,10 @@ $(error $(PKGNAME) does not run on the $(ARCH) platform.)
 endif
 endif
 
-CC:=	gcc
+CC?=	cc
+CXX?=	CC
+
+MAKE_CONF?=/etc/make.conf
 
 # Application paths
 AWK?=	/usr/xpg4/bin/awk
@@ -156,18 +174,21 @@ TAR?=	/usr/sfw/bin/gtar
 TRUE?=	/usr/bin/true
 WGET?=	/usr/sfw/bin/wget
 
-ALL_FAKE_FLAGS=	$(DESTDIRNAME)=$(FAKE_PREFIX)
+ALL_FAKE_FLAGS?=$(DESTDIRNAME)=$(FAKE_PREFIX)
 _FAKE_SETUP=	PREFIX=$(WRKINST) $(DESTDIRNAME)=$(WRKINST)
-MAKE_ENV?=		PREFIX=$(PREFIX) CC=$(CC) CFLAGS=$(CFLAGS) \
-				CXX=$(CXX) CXXFLAGS=$(CXXFLAGS)
+MAKE_ENV+=		PREFIX=$(PREFIX) CC="$(CC)" CFLAGS="$(CFLAGS)" \
+				CXX=$(CXX) CXXFLAGS="$(CXXFLAGS)" \
+				LDFLAGS="$(LDFLAGS)" LD_LIBRARY_PATH="$(LD_LIBRARY_PATH)" \
+				CXXLDFLAGS="$(CXXLDFLAGS)"
 CONFIGURE_SCRIPT?=configure
 DESTDIRNAME?=	DESTDIR
 ALL_TARGET?=	all
 INSTALL_TARGET?=install
 
-CONFIGURE_ENV?=	PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig \
-				CC=$(CC) CFLAGS=$(CFLAGS) CXX=$(CXX) CXXFLAGS=$(CXXFLAGS)
-
+CONFIGURE_ENV+=	PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/lib/pkgconfig \
+				CC="$(CC)" CFLAGS="$(CFLAGS)" CXX=$(CXX) CXXFLAGS="$(CXXFLAGS)" \
+				LDFLAGS="$(LDFLAGS)" LD_LIBRARY_PATH="$(LD_LIBRARY_PATH)" \
+				CXXLDFLAGS="$(CXXLDFLAGS)"
 ifeq (.tar.gz,$(EXTRACT_SUFX))
 EXTRACT_CMD?=	/usr/bin/gzip
 else
@@ -191,9 +212,12 @@ FIND_NON_PREFIX?=	| grep -v $(PREFIX:/%=%)
 #endif
 
 #PKGPROTO_AFTER_ARGS=	`echo $(PREFIX) | sed -e 's,^/,,'`=$(PREFIX)
-_WRKINST=			$(WRKINST:$(PKGDIR)%=%)
+_WRKINST=			$(WRKINST:$(PKGDIR)/%=%)
 PKGPROTO_AFTER_ARGS=	| $(AWK) '{print $$1,$$2,"/" $$3 "=$(_WRKINST)/" $$3,$$4,$$5,$$5}'
+#PKGPROTO_AFTER_ARGS=	| $(AWK) '{print $$1,$$2,"/" $$3 "=./" $$3,$$4,$$5,$$5}'
 PKGADD_ARGS?=	-G
+
+PROTO_SUB+=	PREFIX=$(PREFIX) PKGDIR=$(PKGDIR) WRKDIR=$(WRKDIR) SMFDIR=$(SMFDIR) WRKINST=$(WRKINST)
 
 # How to do nothing.
 DO_NADA?=	$(TRUE)
@@ -267,22 +291,30 @@ endif
 makesum:
 	@if [ -f $(DISTINFO) ]; then cat /dev/null > $(DISTINFO); fi
 	@cd $(DISTDIR); \
-	for alg in $(CHECKSUM_ALGORITHMS); do \
-		digest -v -a $$alg $(DISTNAME) >> $(DISTINFO); \
-	done
+	if [ -n "$(DISTFILES)" ]; then \
+	for file in $(DISTFILES); do \
+		for alg in $(CHECKSUM_ALGORITHMS); do \
+			digest -v -a $$alg $$file >> $(DISTINFO); \
+		done; \
+	done; \
+	fi
 
 checksum: fetch
-	@cd $(DISTDIR); \
-	for alg in $(CHECKSUM_ALGORITHMS); do \
-		cksum=`$(AWK) -v alg=$$alg -v file=$(DISTNAME) '$$1 == alg && $$2 == "(" file ")" {print $$4}' $(DISTINFO)`; \
-		mksum=`digest -a $$alg $(DISTNAME)`; \
-		if [ "$$cksum" = "$$mksum" ]; then \
-			echo "=> $$alg checksum OK for $(DISTNAME)"; \
-		else \
-			echo "=> $$alg checksum mismatch for $(DISTNAME)"; \
-			exit 1; \
-		fi; \
-	done
+	@if [ -n "$(DISTFILES)" ]; then \
+		cd $(DISTDIR); \
+		for file in "$(DISTFILES)"; do \
+			for alg in $(CHECKSUM_ALGORITHMS); do \
+				cksum=`$(AWK) -v alg=$$alg -v file=$$file '$$1 == alg && $$2 == "(" file ")" {print $$4}' $(DISTINFO)`; \
+				mksum=`digest -a $$alg $$file`; \
+				if [ "$$cksum" = "$$mksum" ]; then \
+					echo "=> $$alg checksum OK for $$file"; \
+				else \
+					echo "=> $$alg checksum mismatch for $$file"; \
+					exit 1; \
+				fi; \
+			done; \
+		done; \
+	fi
 
 # XXX: This needs fixing since implementing categories!
 depends:
@@ -311,31 +343,39 @@ ifdef BUILD_DEPENDS
 endif
 
 fetch:
-	@if [ -f $(DISTDIR)/$(DISTNAME) ]; then \
-		$(DO_NADA); \
-	else \
-		echo "==> Fetching for $(PKGNAME)"; \
-		$(FETCH_CMD) -c -O $(DISTDIR)/$(DISTNAME) $(DIST_SITE)$(DISTNAME); \
-		if [ ! -d $(WRKDIR) ]; then mkdir $(WRKDIR); fi; \
+	@if [ ! $(DISTDIR) ]; then mkdir $(DISTDIR); fi
+	@if [ -n "$(DISTFILES)" ]; then \
+	cd $(DISTDIR); \
+	for file in "$(DISTFILES)"; do \
+		if [ -f $(DISTDIR)/$$file ]; then \
+			$(DO_NADA); \
+		else \
+			echo "==> Fetching for $(PKGNAME)"; \
+			$(FETCH_CMD) -c $(DIST_SITE)$$file; \
+			if [ ! -d $(WRKDIR) ]; then mkdir $(WRKDIR); fi; \
+		fi; \
+	done; \
 	fi
 
 extract: checksum
 	@if [ -f $(WRKDIR)/.extract_done ]; then \
 		$(DO_NADA); \
 	else \
-		echo "==> Extracting for $(PKGNAME)"; \
-		if [ ! -f $(DISTDIR)/$(DISTNAME) ]; then \
-			echo "==> Error: Could not find distfile"; \
-			exit 1; \
-		fi; \
 		if [ ! -d $(WRKDIR) ]; then mkdir $(WRKDIR); fi; \
-		cd $(WRKDIR) && $(EXTRACT_CMD) $(EXTRACT_BEFORE_ARGS) $(DISTDIR)/$(DISTNAME) $(EXTRACT_AFTER_ARGS); \
-		if [ $$? -eq 0 ]; \
-		then \
-			$(DO_NADA); \
+		if [ -n "$(DISTFILES)" ]; then \
+			echo "==> Extracting for $(PKGNAME)"; \
+			for file in "$(DISTFILES)"; do \
+				if [ ! -f $(DISTDIR)/$$file ]; then \
+					echo "==> Error: Could not find distfile"; \
+					exit 1; \
+				fi; \
+				cd $(WRKDIR) && $(EXTRACT_CMD) $(EXTRACT_BEFORE_ARGS) $(DISTDIR)/$$file $(EXTRACT_AFTER_ARGS); \
+				if [ $$? -ne 0 ]; \
+				then \
+					exit 1; \
+				fi; \
+			done; \
 			touch $(WRKDIR)/.extract_done; \
-		else \
-			exit 1; \
 		fi; \
 	fi
 
@@ -350,6 +390,19 @@ ifdef HAS_CONFIGURE
 	else \
 		echo "==> Configuring for $(PKGNAME)"; \
 		cd $(WRKSRC) && $(ENV) $(CONFIGURE_ENV) ./$(CONFIGURE_SCRIPT) $(CONFIGURE_ARGS); \
+		if [ $$? -gt 0 ]; then \
+			echo "===> Configure failed."; \
+			exit 1; \
+		fi; \
+		touch $(WRKDIR)/.configure_done; \
+	fi
+endif
+ifdef PERL_CONFIGURE
+	@if [ -f $(WRKDIR)/.configure_done ]; then \
+		$(DO_NADA); \
+	else \
+		echo "==> Configuring for $(PKGNAME)"; \
+		cd $(WRKSRC) && $(ENV) $(CONFIGURE_ENV) perl Makefile.PL; \
 		if [ $$? -gt 0 ]; then \
 			echo "===> Configure failed."; \
 			exit 1; \
@@ -374,6 +427,7 @@ ifndef NO_BUILD
 endif
 
 fakeinstall: build
+ifndef NO_BUILD
 	@if [ -f $(WRKDIR)/.fakeinstall_done ]; then \
 		$(DO_NADA); \
 	else \
@@ -382,6 +436,7 @@ fakeinstall: build
 		cd $(WRKSRC) && $(ENV) $(MAKE_ENV) $(_FAKE_SETUP) $(MAKE) $(ALL_FAKE_FLAGS) $(INSTALL_TARGET) && \
 		touch $(WRKDIR)/.fakeinstall_done; \
 	fi
+endif
 
 install: fakeinstall
 pkg: install $(PKGFILE)
@@ -391,11 +446,12 @@ prototype: $(PROTOTYPE)
 comma := ,
 empty :=
 space := $(empty) $(empty)
+equals:= =
 CATEGORY:=$(subst $(space),$(comma),$(CATEGORY))
 
 $(PKGINFO):
 	@if [ -f $@ ]; then rm $@; fi
-	@echo "PKG=$(PKGPREFIX)$(NAME)" >> $@
+	@echo "PKG=$(PKGPREFIX)$(NAME)$(PKGNAMESUFFIX)" >> $@
 	@echo "NAME=$(DESC)" >> $@
 	@echo "VERSION=$(VERSION)" >> $@
 	@echo "CATEGORY=application,$(CATEGORY)" >> $@
@@ -421,48 +477,61 @@ ifdef BASEDIR
 endif
 
 $(DEPENDFILE):
-ifdef RUN_DEPENDS
 	@if [ -f $@ ]; then rm $@; fi
+ifdef RUN_DEPENDS
 	@$(foreach dep,$(RUN_DEPENDS),\
 	cat=$(word 1,$(subst :, ,$(dep))); \
 	pkg=$(word 2,$(subst :, ,$(dep))); \
 	desc=`$(MAKE) -s -C $(PORTSDIR)/$$cat/$$pkg showvar var=DESC | sed -e 's/DESC=//'`; \
 	echo "P $(PKGPREFIX)$$pkg $$desc" >> $@;)
 endif
+ifdef CONFLICTS
+	@$(foreach conflict,$(CONFLICTS),\
+	cat=$(word 1,$(subst :, ,$(conflict))); \
+	pkg=$(word 2,$(subst :, ,$(conflict))); \
+	desc=`$(MAKE) -s -C $(PORTSDIR)/$$cat/$$pkg showvar var=DESC | sed -e 's/DESC=//'`; \
+	echo "I $(PKGPREFIX)$$pkg $$desc" >> $@;)
+endif	
 
 $(PROTOTYPE):
 	@if [ -f $@ ]; then rm $@; fi
-	@echo "!search $(WRKDIR)" >> $@
+#	@echo "!search $(WRKDIR:$(PKGDIR)/%=%)" >> $@
+	@echo "!search %%WRKDIR%%" >> $@
 	@echo "i pkginfo" >> $@
 ifdef RUN_DEPENDS
 	@echo "i depend" >> $@
 endif
 ifdef SMF_MANIFEST
-	@echo "i i.smf=$(PKGDIR)/smf/i.smf" >> $@
 endif
+	@echo "!search %%PKGDIR%%" >> $@
 ifdef INSTALL_SCRIPTS
 	@$(foreach script,$(INSTALL_SCRIPTS),echo i $(script) >> $@;)
 endif
 ifdef REMOVE_SCRIPTS
 	@$(foreach script,$(REMOVE_SCRIPTS),echo i $(script) >> $@;)
 endif
+ifndef NO_BUILD
 #
 # Find items outside of PREFIX first
 #
-	@echo "!search $(WRKINST)" >> $@
+#	@echo "!search $(WRKINST:$(PKGDIR)/%=%)" >> $@
+	@echo "!search %%WRKINST%%" >> $@
 	@cd $(WRKINST); $(FIND_CMD) * $(FIND_AFTER_ARGS) $(FIND_NON_PREFIX) | \
 		pkgproto $(PKGPROTO_AFTER_ARGS) >> $@
 #
 # Then find items within PREFIX
 #
-	@echo "!search $(WRKINST)$(PREFIX)" >> $@
+#	@echo "!search $(WRKINST:$(PKGDIR)/%=%)$(PREFIX)" >> $@
+	@echo "!search %%WRKINST%%%%PREFIX%%" >> $@
 	@cd $(WRKINST)$(PREFIX); $(FIND_CMD) * $(FIND_AFTER_ARGS) | \
 		pkgproto >> $@
+endif
 ifdef EXTRA_FILES
-	@echo "!search $(PKGDIR)/files" >> $@
+#	@echo "!search $(FILESDIR:$(PKGDIR)/%=%)" >> $@
+	@echo "!search %%FILESDIR%%" >> $@
 	@$(foreach file,$(EXTRA_FILES), \
 		echo "$(subst =, ,$(file))" | \
-		$(AWK) '{ print "f none",$$2 "=$(FILESDIR:$(PKGDIR)%=%/)" $$1,"0644 root bin" }' >> $@;)
+		$(AWK) '{ print "f none",$$2 "=" $$1,"0644 root bin" }' >> $@;)
 endif
 ifdef SMF_MANIFEST
 	@svccfg validate $(PKGDIR)/smf/$(SMF_MANIFEST); \
@@ -470,30 +539,36 @@ ifdef SMF_MANIFEST
 		echo "===> Error: SMF manifest did not validate."; \
 		exit 1; \
 	fi
-	@echo "!search $(PKGDIR)" >> $@
+	@echo "!search %%SMFDIR%%" >> $@
+	@echo "i i.smf" >> $@
 ifdef SMF_METHOD
 	@echo "d smf /lib ? ? ?" >> $@
 	@echo "d smf /lib/svc ? ? ?" >> $@
 	@echo "d smf /lib/svc/method ? ? ?" >> $@
-	@echo "f smf /lib/svc/method/$(SMF_METHOD:%.sh=%)=/smf/$(SMF_METHOD) 0555 root bin" >> $@
+	@echo "f smf /lib/svc/method/$(SMF_METHOD:%.sh=%)=$(SMF_METHOD) 0555 root bin" >> $@
 endif
 	@echo "d smf /var ? ? ?" >> $@
 	@echo "d smf /var/svc ? ? ?" >> $@
 	@echo "d smf /var/svc/manifest ? ? ?" >> $@
 	@echo "d smf /var/svc/manifest/site ? ? ?" >> $@
-	@echo "f smf /var/svc/manifest/site/$(SMF_MANIFEST)=/smf/$(SMF_MANIFEST) 0444 root sys" >> $@
+	@echo "f smf /var/svc/manifest/site/$(SMF_MANIFEST)=$(SMF_MANIFEST) 0444 root sys" >> $@
 endif
 	@echo "==> Prototype has been generated. Please check and adjust as necessary."
 
+$(TMPPROTOTYPE):
+	if [ -f $(PROTOTYPE) ]; then \
+		sed $(subst =,%%!,$(PROTO_SUB:%= -e 's!\%\%%!g')) $(PROTOTYPE) > $@; \
+	fi
+
 #		pkgmk -o -f $(PROTOTYPE) -d $(SPOOLDIR) -r $(PKGDIR) -b $(WRKINST)$(BASEDIR) -a $(ARCH)
 #		pkgmk -o -f $(PROTOTYPE) -d $(SPOOLDIR) -a $(ARCH)
-$(PKGFILE): $(PKGINFO) $(DEPENDFILE)
+$(PKGFILE): $(PKGINFO) $(DEPENDFILE) $(TMPPROTOTYPE)
 	@if [ ! -d $(SPOOLDIR) ]; then mkdir $(SPOOLDIR); fi
 	@echo "==> Generating package"
 	@cd $(PKGDIR) && \
-		pkgmk -o -f $(PROTOTYPE) -d $(SPOOLDIR) -b $(WRKINST)$(PREFIX) -r $(PKGDIR) -a $(ARCH)
+		pkgmk -o -f $(TMPPROTOTYPE) -d $(SPOOLDIR) -b $(WRKINST)$(PREFIX) -r $(PKGDIR) -a $(ARCH)
 	@if [ ! -d $(PKGSTORE) ]; then mkdir $(PKGSTORE); fi
-	@pkgtrans -s $(SPOOLDIR) $(PKGSTORE)/$(PKGFILE) $(PKGPREFIX)$(NAME)
+	@pkgtrans -s $(SPOOLDIR) $(PKGSTORE)/$(PKGFILE) $(PKGPREFIX)$(NAME)$(PKGNAMESUFFIX)
 	@echo "==> Package has been created in $(PKGSTORE)."
 
 # This target will only build the package if it doesn't yet exist.
@@ -507,7 +582,7 @@ installpkg: check-pkg
 		echo "===> $(PKGNAME) is already installed."; \
 	else \
 		if [ -f $(PKGSTORE)/$(PKGFILE) ]; then \
-			pfexec pkgadd $(PKGADD_ARGS) -d $(PKGSTORE)/$(PKGFILE) $(PKGPREFIX)$(NAME); \
+			pfexec pkgadd $(PKGADD_ARGS) -d $(PKGSTORE)/$(PKGFILE) $(PKGPREFIX)$(NAME)$(PKGNAMESUFFIX); \
 			if [ $$? -gt 0 ]; then \
 				echo "===> Install of $(PKGNAME) FAILED."; \
 				exit 1; \
@@ -534,6 +609,13 @@ clean:
 	@if [ -d $(WRKDIR) ]; then rm -rf $(WRKDIR); fi
 
 showvar:
+ifdef $(var)
 	@echo "$(var)=$($(var))"
+else
+	@echo "$(var) is not set."
+endif
 
-.PHONY: $(PKGINFO) $(PROTOTYPE) $(DEPENDFILE)
+.PHONY: $(PKGINFO) $(PROTOTYPE) $(DEPENDFILE) $(PKGFILE) $(TMPPROTOTYPE)
+
+# include any file listed in MAKE_CONF, if it exists, to allow site-wide overrides
+-include $(MAKE_CONF)

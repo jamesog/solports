@@ -1,0 +1,22 @@
+#!/sbin/sh
+
+# Set variable smf depending on the availability of SMF binaries
+smf=no
+if [ -f /usr/sbin/svccfg -a -f /usr/sbin/svcadm ]
+  then
+  smf=yes
+fi
+
+#
+
+# If needed, configure SMF
+if [ $smf = yes ]
+then
+  # Register with SMF
+  echo "Configuring service in SMF"
+  /usr/sbin/svccfg import /var/svc/manifest/site/bind96.xml >/dev/null 2>&1
+  echo "BIND is using Service Management Facility.  The FMRI is:"
+  echo "  svc:/network/dns-server:bind96"
+fi
+
+exit 0

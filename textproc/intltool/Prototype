@@ -1,0 +1,21 @@
+!search /export/pkg/textproc/intltool/work
+i pkginfo
+!search /export/pkg/textproc/intltool/work/root/usr/local
+d none bin 0755 root bin
+f none bin/intltool-extract 0755 root bin
+f none bin/intltool-merge 0755 root bin
+f none bin/intltool-prepare 0755 root bin
+f none bin/intltool-update 0755 root bin
+f none bin/intltoolize 0755 root bin
+d none share 0755 root bin
+d none share/aclocal 0755 root bin
+f none share/aclocal/intltool.m4 0644 root bin
+d none share/intltool 0755 root bin
+f none share/intltool/Makefile.in.in 0644 root bin
+d none share/man 0755 root bin
+d none share/man/man8 0755 root bin
+f none share/man/man8/intltool-extract.8 0644 root bin
+f none share/man/man8/intltool-merge.8 0644 root bin
+f none share/man/man8/intltool-prepare.8 0644 root bin
+f none share/man/man8/intltool-update.8 0644 root bin
+f none share/man/man8/intltoolize.8 0644 root bin

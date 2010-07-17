@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<!DOCTYPE service_bundle SYSTEM "/usr/share/lib/xml/dtd/service_bundle.dtd.1">
+<!--
+    squid.xml: Squid Cache Manifest
+    Created Dec 2008, James O'Gorman
+-->
+
+<service_bundle type='manifest' name='PORTsquid'>
+
+<service
+	name='network/http-proxy'
+	type='service'
+	version='1'>
+
+	<instance name='squid' enabled='false'>
+
+		<!--
+		  Wait for network interfaces to be initialized.
+		-->
+		<dependency name='network'
+			grouping='require_all'
+			restart_on='error'
+			type='service'>
+			<service_fmri value='svc:/milestone/network:default' />
+		</dependency>
+
+		<!--
+		  Wait for all local filesystems to be mounted.
+		-->
+		<dependency name='filesystem-local'
+			grouping='require_all'
+			restart_on='none'
+			type='service'>
+			<service_fmri value='svc:/system/filesystem/local:default' />
+		</dependency>
+
+		<!--
+		  Squid depends on DNS services
+		-->
+		<dependency name='dns'
+			grouping='require_all'
+			restart_on='error'
+			type='service'>
+			<service_fmri value='svc:/network/dns/client:default' />
+		</dependency>
+
+		<method_context>
+			<method_credential user='squid' group='squid' />
+		</method_context>
+
+		<exec_method
+			type='method'
+			name='start'
+			exec='/lib/svc/method/squid start'
+			timeout_seconds='180' />
+
+		<exec_method
+			type='method'
+			name='stop'
+			exec='/lib/svc/method/squid stop'
+			timeout_seconds='180' />
+
+		<exec_method
+			type='method'
+			name='refresh'
+			exec='/lib/svc/method/squid refresh'
+			timeout_seconds='180' />
+
+		<!--
+		  SMF Properties:
+		  squid/homedir is used to indicate squid's install location
+		  squid/cachedir specifies the cache directory/ies to be used
+		    This is a colon-separated list.
+		    NB: This MUST match the conf file!
+		  squid/conffile may optionally be specified
+		-->
+		<property_group name='squid' type='application'>
+			<propval name='homedir' type='astring'
+			  value='/usr/local/squid' />
+			<propval name='conffile' type='astring'
+			  value='/usr/local/squid/etc/squid.conf' />
+		</property_group>
+
+	<template>
+		<common_name>
+			<loctext xml:lang='C'>
+				Squid Cache
+			</loctext>
+		</common_name>
+		<documentation>
+			<manpage title='squid' section='8' manpath='/usr/local/squid/man' />
+			<doc_link name='squid-cache.org'
+				uri='http://www.squid-cache.org' />
+		</documentation>
+	</template>
+
+	</instance>
+
+	<stability value='Unstable' />
+</service>
+
+</service_bundle>

@@ -1,0 +1,124 @@
+!search /export/pkg/security/snort/work
+i pkginfo
+i depend
+!search /export/pkg/security/snort/work/root
+d none /etc=/work/root/etc 0755 root root
+d none /etc/snort=/work/root/etc/snort 0755 root root
+f none /etc/snort/attribute_table.dtd-dist=/work/root/etc/snort/attribute_table.dtd-dist 0644 root root
+f none /etc/snort/classification.config-dist=/work/root/etc/snort/classification.config-dist 0644 root root
+f none /etc/snort/gen-msg.map-dist=/work/root/etc/snort/gen-msg.map-dist 0644 root root
+f none /etc/snort/reference.config-dist=/work/root/etc/snort/reference.config-dist 0644 root root
+f none /etc/snort/sid-msg.map-dist=/work/root/etc/snort/sid-msg.map-dist 0644 root root
+f none /etc/snort/snort.conf-dist=/work/root/etc/snort/snort.conf-dist 0644 root root
+f none /etc/snort/threshold.conf-dist=/work/root/etc/snort/threshold.conf-dist 0644 root root
+f none /etc/snort/unicode.map-dist=/work/root/etc/snort/unicode.map-dist 0644 root root
+!search /export/pkg/security/snort/work/root/usr/local
+d none bin 0755 root bin
+f none bin/snort 0755 root bin
+d none lib 0755 root bin
+d none lib/snort_dynamicengine 0755 root bin
+f none lib/snort_dynamicengine/libsf_engine.a 0644 root bin
+f none lib/snort_dynamicengine/libsf_engine.la 0755 root bin
+s none lib/snort_dynamicengine/libsf_engine.so=libsf_engine.so.0.0.0
+s none lib/snort_dynamicengine/libsf_engine.so.0=libsf_engine.so.0.0.0
+f none lib/snort_dynamicengine/libsf_engine.so.0.0.0 0755 root bin
+d none lib/snort_dynamicpreprocessor 0755 root bin
+f none lib/snort_dynamicpreprocessor/lib_sfdynamic_preprocessor_example.a 0644 root bin
+f none lib/snort_dynamicpreprocessor/lib_sfdynamic_preprocessor_example.la 0755 root bin
+s none lib/snort_dynamicpreprocessor/lib_sfdynamic_preprocessor_example.so=lib_sfdynamic_preprocessor_example.so.0.0.0
+s none lib/snort_dynamicpreprocessor/lib_sfdynamic_preprocessor_example.so.0=lib_sfdynamic_preprocessor_example.so.0.0.0
+f none lib/snort_dynamicpreprocessor/lib_sfdynamic_preprocessor_example.so.0.0.0 0755 root bin
+f none lib/snort_dynamicpreprocessor/libsf_dce2_preproc.a 0644 root bin
+f none lib/snort_dynamicpreprocessor/libsf_dce2_preproc.la 0755 root bin
+s none lib/snort_dynamicpreprocessor/libsf_dce2_preproc.so=libsf_dce2_preproc.so.0.0.0
+s none lib/snort_dynamicpreprocessor/libsf_dce2_preproc.so.0=libsf_dce2_preproc.so.0.0.0
+f none lib/snort_dynamicpreprocessor/libsf_dce2_preproc.so.0.0.0 0755 root bin
+f none lib/snort_dynamicpreprocessor/libsf_dcerpc_preproc.a 0644 root bin
+f none lib/snort_dynamicpreprocessor/libsf_dcerpc_preproc.la 0755 root bin
+s none lib/snort_dynamicpreprocessor/libsf_dcerpc_preproc.so=libsf_dcerpc_preproc.so.0.0.0
+s none lib/snort_dynamicpreprocessor/libsf_dcerpc_preproc.so.0=libsf_dcerpc_preproc.so.0.0.0
+f none lib/snort_dynamicpreprocessor/libsf_dcerpc_preproc.so.0.0.0 0755 root bin
+f none lib/snort_dynamicpreprocessor/libsf_dns_preproc.a 0644 root bin
+f none lib/snort_dynamicpreprocessor/libsf_dns_preproc.la 0755 root bin
+s none lib/snort_dynamicpreprocessor/libsf_dns_preproc.so=libsf_dns_preproc.so.0.0.0
+s none lib/snort_dynamicpreprocessor/libsf_dns_preproc.so.0=libsf_dns_preproc.so.0.0.0
+f none lib/snort_dynamicpreprocessor/libsf_dns_preproc.so.0.0.0 0755 root bin
+f none lib/snort_dynamicpreprocessor/libsf_ftptelnet_preproc.a 0644 root bin
+f none lib/snort_dynamicpreprocessor/libsf_ftptelnet_preproc.la 0755 root bin
+s none lib/snort_dynamicpreprocessor/libsf_ftptelnet_preproc.so=libsf_ftptelnet_preproc.so.0.0.0
+s none lib/snort_dynamicpreprocessor/libsf_ftptelnet_preproc.so.0=libsf_ftptelnet_preproc.so.0.0.0
+f none lib/snort_dynamicpreprocessor/libsf_ftptelnet_preproc.so.0.0.0 0755 root bin
+f none lib/snort_dynamicpreprocessor/libsf_smtp_preproc.a 0644 root bin
+f none lib/snort_dynamicpreprocessor/libsf_smtp_preproc.la 0755 root bin
+s none lib/snort_dynamicpreprocessor/libsf_smtp_preproc.so=libsf_smtp_preproc.so.0.0.0
+s none lib/snort_dynamicpreprocessor/libsf_smtp_preproc.so.0=libsf_smtp_preproc.so.0.0.0
+f none lib/snort_dynamicpreprocessor/libsf_smtp_preproc.so.0.0.0 0755 root bin
+f none lib/snort_dynamicpreprocessor/libsf_ssh_preproc.a 0644 root bin
+f none lib/snort_dynamicpreprocessor/libsf_ssh_preproc.la 0755 root bin
+s none lib/snort_dynamicpreprocessor/libsf_ssh_preproc.so=libsf_ssh_preproc.so.0.0.0
+s none lib/snort_dynamicpreprocessor/libsf_ssh_preproc.so.0=libsf_ssh_preproc.so.0.0.0
+f none lib/snort_dynamicpreprocessor/libsf_ssh_preproc.so.0.0.0 0755 root bin
+f none lib/snort_dynamicpreprocessor/libsf_ssl_preproc.a 0644 root bin
+f none lib/snort_dynamicpreprocessor/libsf_ssl_preproc.la 0755 root bin
+s none lib/snort_dynamicpreprocessor/libsf_ssl_preproc.so=libsf_ssl_preproc.so.0.0.0
+s none lib/snort_dynamicpreprocessor/libsf_ssl_preproc.so.0=libsf_ssl_preproc.so.0.0.0
+f none lib/snort_dynamicpreprocessor/libsf_ssl_preproc.so.0.0.0 0755 root bin
+d none lib/snort_dynamicrules 0755 root bin
+f none lib/snort_dynamicrules/lib_sfdynamic_example_rule.a 0644 root bin
+f none lib/snort_dynamicrules/lib_sfdynamic_example_rule.la 0755 root bin
+s none lib/snort_dynamicrules/lib_sfdynamic_example_rule.so=lib_sfdynamic_example_rule.so.0.0.0
+s none lib/snort_dynamicrules/lib_sfdynamic_example_rule.so.0=lib_sfdynamic_example_rule.so.0.0.0
+f none lib/snort_dynamicrules/lib_sfdynamic_example_rule.so.0.0.0 0755 root bin
+d none share 0755 root bin
+d none share/doc 0755 root bin
+d none share/doc/snort 0755 root bin
+f none share/doc/snort/AUTHORS 0644 root bin
+f none share/doc/snort/BUGS 0644 root bin
+f none share/doc/snort/CREDITS 0644 root bin
+f none share/doc/snort/generators 0644 root bin
+f none share/doc/snort/INSTALL 0644 root bin
+f none share/doc/snort/NEWS 0644 root bin
+f none share/doc/snort/PROBLEMS 0644 root bin
+f none share/doc/snort/README 0644 root bin
+f none share/doc/snort/README.alert_order 0644 root bin
+f none share/doc/snort/README.ARUBA 0644 root bin
+f none share/doc/snort/README.asn1 0644 root bin
+f none share/doc/snort/README.csv 0644 root bin
+f none share/doc/snort/README.database 0644 root bin
+f none share/doc/snort/README.dcerpc 0644 root bin
+f none share/doc/snort/README.dcerpc2 0644 root bin
+f none share/doc/snort/README.decode 0644 root bin
+f none share/doc/snort/README.decoder_preproc_rules 0644 root bin
+f none share/doc/snort/README.dns 0644 root bin
+f none share/doc/snort/README.event_queue 0644 root bin
+f none share/doc/snort/README.FLEXRESP 0644 root bin
+f none share/doc/snort/README.FLEXRESP2 0644 root bin
+f none share/doc/snort/README.flowbits 0644 root bin
+f none share/doc/snort/README.frag3 0644 root bin
+f none share/doc/snort/README.ftptelnet 0644 root bin
+f none share/doc/snort/README.gre 0644 root bin
+f none share/doc/snort/README.http_inspect 0644 root bin
+f none share/doc/snort/README.INLINE 0644 root bin
+f none share/doc/snort/README.ipip 0644 root bin
+f none share/doc/snort/README.ipv6 0644 root bin
+f none share/doc/snort/README.pcap_readmode 0644 root bin
+f none share/doc/snort/README.PerfProfiling 0644 root bin
+f none share/doc/snort/README.PLUGINS 0644 root bin
+f none share/doc/snort/README.ppm 0644 root bin
+f none share/doc/snort/README.sfportscan 0644 root bin
+f none share/doc/snort/README.SMTP 0644 root bin
+f none share/doc/snort/README.ssh 0644 root bin
+f none share/doc/snort/README.ssl 0644 root bin
+f none share/doc/snort/README.stream5 0644 root bin
+f none share/doc/snort/README.tag 0644 root bin
+f none share/doc/snort/README.thresholding 0644 root bin
+f none share/doc/snort/README.UNSOCK 0644 root bin
+f none share/doc/snort/README.variables 0644 root bin
+f none share/doc/snort/README.WIN32 0644 root bin
+f none share/doc/snort/README.wireless 0644 root bin
+f none share/doc/snort/TODO 0644 root bin
+f none share/doc/snort/USAGE 0644 root bin
+f none share/doc/snort/WISHLIST 0644 root bin
+d none share/man 0755 root bin
+d none share/man/man8 0755 root bin
+f none share/man/man8/snort.8 0644 root bin

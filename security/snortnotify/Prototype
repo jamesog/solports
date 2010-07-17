@@ -1,0 +1,11 @@
+!search /export/pkg/security/snortnotify/work
+i pkginfo
+!search /export/pkg/security/snortnotify/work/root
+d none /etc=/work/root/etc 0755 root root
+f none /etc/SnortNotify.conf=/work/root/etc/SnortNotify.conf 0644 root root
+!search /export/pkg/security/snortnotify/work/root/usr/local
+d none bin 0755 root bin
+f none bin/SnortNotify.pl 0755 root bin
+d none share 0755 root bin
+d none share/snortnotify 0755 root bin
+f none share/snortnotify/SnortNotify.sql 0644 root bin

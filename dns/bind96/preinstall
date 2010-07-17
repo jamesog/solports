@@ -1,0 +1,15 @@
+#!/sbin/sh
+
+# Create user/group for BIND
+
+groupadd -g 53 named >/dev/null 2>&1
+id named >/dev/null 2>&1
+if [ $? -gt 0 ]; then
+  useradd -u 53 -g 53 -d /var/named -s /bin/rksh named
+  if [ $? -gt 0 ]; then
+    echo Error creating user: named
+    exit $?
+  fi
+  mkdir /var/named
+  chown named:named /var/named
+fi

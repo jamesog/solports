@@ -1,0 +1,11 @@
+!search /export/pkg/security/oinkmaster/work
+i pkginfo
+!search /export/pkg/security/oinkmaster/work/root
+d none /etc=/work/root/etc 0755 root root
+f none /etc/oinkmaster.conf=/work/root/etc/oinkmaster.conf 0644 root root
+!search /export/pkg/security/oinkmaster/work/root/usr/local
+d none bin 0755 root bin
+f none bin/oinkmaster 0744 root bin
+d none man 0755 root bin
+d none man/man1 0755 root bin
+f none man/man1/oinkmaster.1 0644 root bin

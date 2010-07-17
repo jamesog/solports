@@ -1,0 +1,98 @@
+!search /export/pkg/x11/pango/work
+i pkginfo
+!search /export/pkg/x11/pango/work/root
+d none /etc=/work/root/etc 0755 root root
+d none /etc/pango=/work/root/etc/pango 0755 root root
+d none /etc/pango/pango=/work/root/etc/pango/pango 0755 root root
+f none /etc/pango/pango/pangox.aliases=/work/root/etc/pango/pango/pangox.aliases 0644 root root
+!search /export/pkg/x11/pango/work/root/usr/local
+d none bin 0755 root bin
+f none bin/pango-querymodules 0755 root bin
+f none bin/pango-view 0755 root bin
+d none include 0755 root bin
+d none include/pango-1.0 0755 root bin
+d none include/pango-1.0/pango 0755 root bin
+f none include/pango-1.0/pango/pango-attributes.h 0644 root bin
+f none include/pango-1.0/pango/pango-break.h 0644 root bin
+f none include/pango-1.0/pango/pango-context.h 0644 root bin
+f none include/pango-1.0/pango/pango-coverage.h 0644 root bin
+f none include/pango-1.0/pango/pango-engine.h 0644 root bin
+f none include/pango-1.0/pango/pango-enum-types.h 0644 root bin
+f none include/pango-1.0/pango/pango-features.h 0644 root bin
+f none include/pango-1.0/pango/pango-font.h 0644 root bin
+f none include/pango-1.0/pango/pango-fontmap.h 0644 root bin
+f none include/pango-1.0/pango/pango-fontset.h 0644 root bin
+f none include/pango-1.0/pango/pango-glyph-item.h 0644 root bin
+f none include/pango-1.0/pango/pango-glyph.h 0644 root bin
+f none include/pango-1.0/pango/pango-gravity.h 0644 root bin
+f none include/pango-1.0/pango/pango-item.h 0644 root bin
+f none include/pango-1.0/pango/pango-language.h 0644 root bin
+f none include/pango-1.0/pango/pango-layout.h 0644 root bin
+f none include/pango-1.0/pango/pango-matrix.h 0644 root bin
+f none include/pango-1.0/pango/pango-modules.h 0644 root bin
+f none include/pango-1.0/pango/pango-ot.h 0644 root bin
+f none include/pango-1.0/pango/pango-renderer.h 0644 root bin
+f none include/pango-1.0/pango/pango-script.h 0644 root bin
+f none include/pango-1.0/pango/pango-tabs.h 0644 root bin
+f none include/pango-1.0/pango/pango-types.h 0644 root bin
+f none include/pango-1.0/pango/pango-utils.h 0644 root bin
+f none include/pango-1.0/pango/pango.h 0644 root bin
+f none include/pango-1.0/pango/pangocairo.h 0644 root bin
+f none include/pango-1.0/pango/pangofc-decoder.h 0644 root bin
+f none include/pango-1.0/pango/pangofc-font.h 0644 root bin
+f none include/pango-1.0/pango/pangofc-fontmap.h 0644 root bin
+f none include/pango-1.0/pango/pangoft2.h 0644 root bin
+f none include/pango-1.0/pango/pangox.h 0644 root bin
+d none lib 0755 root bin
+f none lib/libpango-1.0.la 0755 root bin
+s none lib/libpango-1.0.so=libpango-1.0.so.0.2002.3
+s none lib/libpango-1.0.so.0=libpango-1.0.so.0.2002.3
+f none lib/libpango-1.0.so.0.2002.3 0755 root bin
+f none lib/libpangocairo-1.0.la 0755 root bin
+s none lib/libpangocairo-1.0.so=libpangocairo-1.0.so.0.2002.3
+s none lib/libpangocairo-1.0.so.0=libpangocairo-1.0.so.0.2002.3
+f none lib/libpangocairo-1.0.so.0.2002.3 0755 root bin
+f none lib/libpangoft2-1.0.la 0644 root bin
+s none lib/libpangoft2-1.0.so=libpangoft2-1.0.so.0.2002.3
+s none lib/libpangoft2-1.0.so.0=libpangoft2-1.0.so.0.2002.3
+f none lib/libpangoft2-1.0.so.0.2002.3 0755 root bin
+f none lib/libpangox-1.0.la 0644 root bin
+s none lib/libpangox-1.0.so=libpangox-1.0.so.0.2002.3
+s none lib/libpangox-1.0.so.0=libpangox-1.0.so.0.2002.3
+f none lib/libpangox-1.0.so.0.2002.3 0755 root bin
+d none lib/pango 0755 root bin
+d none lib/pango/1.6.0 0755 root bin
+d none lib/pango/1.6.0/modules 0755 root bin
+f none lib/pango/1.6.0/modules/pango-arabic-fc.la 0755 root bin
+f none lib/pango/1.6.0/modules/pango-arabic-fc.so 0755 root bin
+f none lib/pango/1.6.0/modules/pango-arabic-lang.la 0755 root bin
+f none lib/pango/1.6.0/modules/pango-arabic-lang.so 0755 root bin
+f none lib/pango/1.6.0/modules/pango-basic-fc.la 0755 root bin
+f none lib/pango/1.6.0/modules/pango-basic-fc.so 0755 root bin
+f none lib/pango/1.6.0/modules/pango-basic-x.la 0755 root bin
+f none lib/pango/1.6.0/modules/pango-basic-x.so 0755 root bin
+f none lib/pango/1.6.0/modules/pango-hangul-fc.la 0755 root bin
+f none lib/pango/1.6.0/modules/pango-hangul-fc.so 0755 root bin
+f none lib/pango/1.6.0/modules/pango-hebrew-fc.la 0755 root bin
+f none lib/pango/1.6.0/modules/pango-hebrew-fc.so 0755 root bin
+f none lib/pango/1.6.0/modules/pango-indic-fc.la 0755 root bin
+f none lib/pango/1.6.0/modules/pango-indic-fc.so 0755 root bin
+f none lib/pango/1.6.0/modules/pango-indic-lang.la 0755 root bin
+f none lib/pango/1.6.0/modules/pango-indic-lang.so 0755 root bin
+f none lib/pango/1.6.0/modules/pango-khmer-fc.la 0755 root bin
+f none lib/pango/1.6.0/modules/pango-khmer-fc.so 0755 root bin
+f none lib/pango/1.6.0/modules/pango-syriac-fc.la 0755 root bin
+f none lib/pango/1.6.0/modules/pango-syriac-fc.so 0755 root bin
+f none lib/pango/1.6.0/modules/pango-thai-fc.la 0755 root bin
+f none lib/pango/1.6.0/modules/pango-thai-fc.so 0755 root bin
+f none lib/pango/1.6.0/modules/pango-tibetan-fc.la 0755 root bin
+f none lib/pango/1.6.0/modules/pango-tibetan-fc.so 0755 root bin
+d none lib/pkgconfig 0755 root bin
+f none lib/pkgconfig/pango.pc 0644 root bin
+f none lib/pkgconfig/pangocairo.pc 0644 root bin
+f none lib/pkgconfig/pangoft2.pc 0644 root bin
+f none lib/pkgconfig/pangox.pc 0644 root bin
+d none share 0755 root bin
+d none share/man 0755 root bin
+d none share/man/man1 0755 root bin
+f none share/man/man1/pango-querymodules.1 0644 root bin

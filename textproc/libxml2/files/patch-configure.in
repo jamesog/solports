@@ -1,0 +1,11 @@
+--- configure.in.orig	Tue Oct  6 17:28:58 2009
++++ configure.in	Sun Mar 14 12:49:56 2010
+@@ -75,7 +75,7 @@
+ $(/usr/bin/ld --help 2>&1 | grep -- --version-script >/dev/null) && \
+     VERSION_SCRIPT_FLAGS=-Wl,--version-script=
+ test "`uname`" == "SunOS" && \
+-    VERSION_SCRIPT_FLAGS="-Wl,-M -Wl,"
++    VERSION_SCRIPT_FLAGS=""
+ AC_SUBST(VERSION_SCRIPT_FLAGS)
+ AM_CONDITIONAL([USE_VERSION_SCRIPT], [test -n "$VERSION_SCRIPT_FLAGS"])
+ 

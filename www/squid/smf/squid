@@ -1,0 +1,47 @@
+#!/sbin/sh
+#
+# smf_method(5) start/stop script required for Squid
+
+. /lib/svc/share/smf_include.sh
+
+# Set defaults; SMF_FMRI should have been set, but just in case.
+if [ -z "$SMF_FMRI" ]; then
+	echo "Squid startup script must be run via the SMF framework."
+	exit $SMF_EXIT_ERR_NOSMF
+fi
+
+SQUID_HOME=`/usr/bin/svcprop -p squid/homedir $SMF_FMRI`
+[ $? != 0 ] && exit $SMF_EXIT_ERR_CONFIG
+
+CONF_FILE=`/usr/bin/svcprop -p squid/conffile $SMF_FMRI`
+[ $? != 0 ] && CONF_FILE=$SQUID_HOME/etc/squid.conf
+
+PATH=$SQUID_HOME/sbin:/usr/bin
+export PATH
+
+[ ! -f $CONF_FILE ] && exit $SMF_EXIT_ERR_CONFIG
+
+case "$1" in
+start)
+	# Check validity of conf file
+	squid -f $CONF_FILE -k parse
+	if [ $? != 0 ]; then
+		echo Conf file produced errors.
+		exit $SMF_EXIT_ERR_CONFIG
+	fi
+
+	ulimit -n 32768
+	squid -f $CONF_FILE -sY
+	;;
+stop)
+	squid -f $CONF_FILE -k shutdown
+	;;
+refresh)
+	squid -f $CONF_FILE -k reconfigure
+	;;
+*)
+	echo "Usage: $0 [stop|start|refresh]" >&2
+	exit 1
+	;;
+esac
+exit ${result}

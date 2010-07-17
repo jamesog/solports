@@ -1,7 +1,7 @@
-!search /export/pkg/devel/apr-util/work
+!search %%WRKDIR%%
 i pkginfo
-i depend
-!search /export/pkg/devel/apr-util/work/root/usr/local
+!search %%PKGDIR%%
+!search %%WRKINST%%%%PREFIX%%
 d none bin 0755 root bin
 f none bin/apu-1-config 0755 root bin
 d none include 0755 root bin
@@ -37,17 +37,18 @@ f none include/apr-1/apr_xml.h 0644 root bin
 f none include/apr-1/apu.h 0644 root bin
 f none include/apr-1/apu_version.h 0644 root bin
 f none include/apr-1/apu_want.h 0644 root bin
+f none include/apr-1/expat.h 0644 root bin
 d none lib 0755 root bin
-d none lib/apr-util-1 0755 root bin
-f none lib/apr-util-1/apr_dbd_pgsql-1.so 0755 root bin
-f none lib/apr-util-1/apr_dbd_pgsql.a 0644 root bin
-f none lib/apr-util-1/apr_dbd_pgsql.la 0755 root bin
-s none lib/apr-util-1/apr_dbd_pgsql.so=apr_dbd_pgsql-1.so
 f none lib/aprutil.exp 0644 root bin
 f none lib/libaprutil-1.a 0644 root bin
 f none lib/libaprutil-1.la 0755 root bin
-s none lib/libaprutil-1.so=libaprutil-1.so.0.3.7
-s none lib/libaprutil-1.so.0=libaprutil-1.so.0.3.7
-f none lib/libaprutil-1.so.0.3.7 0755 root bin
+s none lib/libaprutil-1.so=libaprutil-1.so.0.3.9
+s none lib/libaprutil-1.so.0=libaprutil-1.so.0.3.9
+f none lib/libaprutil-1.so.0.3.9 0755 root bin
+f none lib/libexpat.a 0644 root bin
+f none lib/libexpat.la 0755 root bin
+s none lib/libexpat.so=libexpat.so.0.1.0
+s none lib/libexpat.so.0=libexpat.so.0.1.0
+f none lib/libexpat.so.0.1.0 0755 root bin
 d none lib/pkgconfig 0755 root bin
 f none lib/pkgconfig/apr-util-1.pc 0644 root bin

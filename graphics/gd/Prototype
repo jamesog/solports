@@ -1,0 +1,34 @@
+!search /export/pkg/gd/work
+i pkginfo
+!search /export/pkg/gd/work/root/usr/local
+d none bin 0775 root bin
+f none bin/annotate 0755 root bin
+f none bin/bdftogd 0755 root bin
+f none bin/gd2copypal 0755 root bin
+f none bin/gd2togif 0755 root bin
+f none bin/gd2topng 0755 root bin
+f none bin/gdcmpgif 0755 root bin
+f none bin/gdlib-config 0755 root bin
+f none bin/gdparttopng 0755 root bin
+f none bin/gdtopng 0755 root bin
+f none bin/giftogd2 0755 root bin
+f none bin/pngtogd 0755 root bin
+f none bin/pngtogd2 0755 root bin
+f none bin/webpng 0755 root bin
+d none include 0775 root bin
+f none include/entities.h 0644 root bin
+f none include/gd_io.h 0644 root bin
+f none include/gd.h 0644 root bin
+f none include/gdcache.h 0644 root bin
+f none include/gdfontg.h 0644 root bin
+f none include/gdfontl.h 0644 root bin
+f none include/gdfontmb.h 0644 root bin
+f none include/gdfonts.h 0644 root bin
+f none include/gdfontt.h 0644 root bin
+f none include/gdfx.h 0644 root bin
+d none lib 0775 root bin
+f none lib/libgd.a 0644 root bin
+f none lib/libgd.la 0755 root bin
+s none lib/libgd.so=libgd.so.2.0.0
+s none lib/libgd.so.2=libgd.so.2.0.0
+f none lib/libgd.so.2.0.0 0755 root bin

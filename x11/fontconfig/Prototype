@@ -1,0 +1,78 @@
+!search /export/pkg/x11/fontconfig/work
+i pkginfo
+!search /export/pkg/x11/fontconfig/work/root
+d none /etc=/work/root/etc 0755 root root
+d none /etc/fontconfig=/work/root/etc/fontconfig 0755 root root
+d none /etc/fontconfig/fonts=/work/root/etc/fontconfig/fonts 0755 root root
+d none /etc/fontconfig/fonts/conf.avail=/work/root/etc/fontconfig/fonts/conf.avail 0755 root root
+f none /etc/fontconfig/fonts/conf.avail/10-autohint.conf=/work/root/etc/fontconfig/fonts/conf.avail/10-autohint.conf 0644 root root
+f none /etc/fontconfig/fonts/conf.avail/10-no-sub-pixel.conf=/work/root/etc/fontconfig/fonts/conf.avail/10-no-sub-pixel.conf 0644 root root
+f none /etc/fontconfig/fonts/conf.avail/10-sub-pixel-bgr.conf=/work/root/etc/fontconfig/fonts/conf.avail/10-sub-pixel-bgr.conf 0644 root root
+f none /etc/fontconfig/fonts/conf.avail/10-sub-pixel-rgb.conf=/work/root/etc/fontconfig/fonts/conf.avail/10-sub-pixel-rgb.conf 0644 root root
+f none /etc/fontconfig/fonts/conf.avail/10-sub-pixel-vbgr.conf=/work/root/etc/fontconfig/fonts/conf.avail/10-sub-pixel-vbgr.conf 0644 root root
+f none /etc/fontconfig/fonts/conf.avail/10-sub-pixel-vrgb.conf=/work/root/etc/fontconfig/fonts/conf.avail/10-sub-pixel-vrgb.conf 0644 root root
+f none /etc/fontconfig/fonts/conf.avail/10-unhinted.conf=/work/root/etc/fontconfig/fonts/conf.avail/10-unhinted.conf 0644 root root
+f none /etc/fontconfig/fonts/conf.avail/20-fix-globaladvance.conf=/work/root/etc/fontconfig/fonts/conf.avail/20-fix-globaladvance.conf 0644 root root
+f none /etc/fontconfig/fonts/conf.avail/20-unhint-small-vera.conf=/work/root/etc/fontconfig/fonts/conf.avail/20-unhint-small-vera.conf 0644 root root
+f none /etc/fontconfig/fonts/conf.avail/25-unhint-nonlatin.conf=/work/root/etc/fontconfig/fonts/conf.avail/25-unhint-nonlatin.conf 0644 root root
+f none /etc/fontconfig/fonts/conf.avail/30-metric-aliases.conf=/work/root/etc/fontconfig/fonts/conf.avail/30-metric-aliases.conf 0644 root root
+f none /etc/fontconfig/fonts/conf.avail/30-urw-aliases.conf=/work/root/etc/fontconfig/fonts/conf.avail/30-urw-aliases.conf 0644 root root
+f none /etc/fontconfig/fonts/conf.avail/40-nonlatin.conf=/work/root/etc/fontconfig/fonts/conf.avail/40-nonlatin.conf 0644 root root
+f none /etc/fontconfig/fonts/conf.avail/45-latin.conf=/work/root/etc/fontconfig/fonts/conf.avail/45-latin.conf 0644 root root
+f none /etc/fontconfig/fonts/conf.avail/49-sansserif.conf=/work/root/etc/fontconfig/fonts/conf.avail/49-sansserif.conf 0644 root root
+f none /etc/fontconfig/fonts/conf.avail/50-user.conf=/work/root/etc/fontconfig/fonts/conf.avail/50-user.conf 0644 root root
+f none /etc/fontconfig/fonts/conf.avail/51-local.conf=/work/root/etc/fontconfig/fonts/conf.avail/51-local.conf 0644 root root
+f none /etc/fontconfig/fonts/conf.avail/60-latin.conf=/work/root/etc/fontconfig/fonts/conf.avail/60-latin.conf 0644 root root
+f none /etc/fontconfig/fonts/conf.avail/65-fonts-persian.conf=/work/root/etc/fontconfig/fonts/conf.avail/65-fonts-persian.conf 0644 root root
+f none /etc/fontconfig/fonts/conf.avail/65-khmer.conf=/work/root/etc/fontconfig/fonts/conf.avail/65-khmer.conf 0644 root root
+f none /etc/fontconfig/fonts/conf.avail/65-nonlatin.conf=/work/root/etc/fontconfig/fonts/conf.avail/65-nonlatin.conf 0644 root root
+f none /etc/fontconfig/fonts/conf.avail/69-unifont.conf=/work/root/etc/fontconfig/fonts/conf.avail/69-unifont.conf 0644 root root
+f none /etc/fontconfig/fonts/conf.avail/70-no-bitmaps.conf=/work/root/etc/fontconfig/fonts/conf.avail/70-no-bitmaps.conf 0644 root root
+f none /etc/fontconfig/fonts/conf.avail/70-yes-bitmaps.conf=/work/root/etc/fontconfig/fonts/conf.avail/70-yes-bitmaps.conf 0644 root root
+f none /etc/fontconfig/fonts/conf.avail/80-delicious.conf=/work/root/etc/fontconfig/fonts/conf.avail/80-delicious.conf 0644 root root
+f none /etc/fontconfig/fonts/conf.avail/90-synthetic.conf=/work/root/etc/fontconfig/fonts/conf.avail/90-synthetic.conf 0644 root root
+d none /etc/fontconfig/fonts/conf.d=/work/root/etc/fontconfig/fonts/conf.d 0755 root root
+s none /etc/fontconfig/fonts/conf.d/20-fix-globaladvance.conf=../conf.avail/20-fix-globaladvance.conf=/work/root/etc/fontconfig/fonts/conf.d/20-fix-globaladvance.conf=../conf.avail/20-fix-globaladvance.conf   
+s none /etc/fontconfig/fonts/conf.d/20-unhint-small-vera.conf=../conf.avail/20-unhint-small-vera.conf=/work/root/etc/fontconfig/fonts/conf.d/20-unhint-small-vera.conf=../conf.avail/20-unhint-small-vera.conf   
+s none /etc/fontconfig/fonts/conf.d/30-metric-aliases.conf=../conf.avail/30-metric-aliases.conf=/work/root/etc/fontconfig/fonts/conf.d/30-metric-aliases.conf=../conf.avail/30-metric-aliases.conf   
+s none /etc/fontconfig/fonts/conf.d/30-urw-aliases.conf=../conf.avail/30-urw-aliases.conf=/work/root/etc/fontconfig/fonts/conf.d/30-urw-aliases.conf=../conf.avail/30-urw-aliases.conf   
+s none /etc/fontconfig/fonts/conf.d/40-nonlatin.conf=../conf.avail/40-nonlatin.conf=/work/root/etc/fontconfig/fonts/conf.d/40-nonlatin.conf=../conf.avail/40-nonlatin.conf   
+s none /etc/fontconfig/fonts/conf.d/45-latin.conf=../conf.avail/45-latin.conf=/work/root/etc/fontconfig/fonts/conf.d/45-latin.conf=../conf.avail/45-latin.conf   
+s none /etc/fontconfig/fonts/conf.d/49-sansserif.conf=../conf.avail/49-sansserif.conf=/work/root/etc/fontconfig/fonts/conf.d/49-sansserif.conf=../conf.avail/49-sansserif.conf   
+s none /etc/fontconfig/fonts/conf.d/50-user.conf=../conf.avail/50-user.conf=/work/root/etc/fontconfig/fonts/conf.d/50-user.conf=../conf.avail/50-user.conf   
+s none /etc/fontconfig/fonts/conf.d/51-local.conf=../conf.avail/51-local.conf=/work/root/etc/fontconfig/fonts/conf.d/51-local.conf=../conf.avail/51-local.conf   
+s none /etc/fontconfig/fonts/conf.d/60-latin.conf=../conf.avail/60-latin.conf=/work/root/etc/fontconfig/fonts/conf.d/60-latin.conf=../conf.avail/60-latin.conf   
+s none /etc/fontconfig/fonts/conf.d/65-fonts-persian.conf=../conf.avail/65-fonts-persian.conf=/work/root/etc/fontconfig/fonts/conf.d/65-fonts-persian.conf=../conf.avail/65-fonts-persian.conf   
+s none /etc/fontconfig/fonts/conf.d/65-nonlatin.conf=../conf.avail/65-nonlatin.conf=/work/root/etc/fontconfig/fonts/conf.d/65-nonlatin.conf=../conf.avail/65-nonlatin.conf   
+s none /etc/fontconfig/fonts/conf.d/69-unifont.conf=../conf.avail/69-unifont.conf=/work/root/etc/fontconfig/fonts/conf.d/69-unifont.conf=../conf.avail/69-unifont.conf   
+s none /etc/fontconfig/fonts/conf.d/80-delicious.conf=../conf.avail/80-delicious.conf=/work/root/etc/fontconfig/fonts/conf.d/80-delicious.conf=../conf.avail/80-delicious.conf   
+s none /etc/fontconfig/fonts/conf.d/90-synthetic.conf=../conf.avail/90-synthetic.conf=/work/root/etc/fontconfig/fonts/conf.d/90-synthetic.conf=../conf.avail/90-synthetic.conf   
+f none /etc/fontconfig/fonts/conf.d/README=/work/root/etc/fontconfig/fonts/conf.d/README 0644 root root
+f none /etc/fontconfig/fonts/fonts.conf=/work/root/etc/fontconfig/fonts/fonts.conf 0644 root root
+f none /etc/fontconfig/fonts/fonts.dtd=/work/root/etc/fontconfig/fonts/fonts.dtd 0644 root root
+d none /usr=/work/root/usr 0755 root root
+!search /export/pkg/x11/fontconfig/work/root/usr/local
+d none bin 0755 root bin
+f none bin/fc-cache 0755 root bin
+f none bin/fc-cat 0755 root bin
+f none bin/fc-list 0755 root bin
+f none bin/fc-match 0755 root bin
+d none include 0755 root bin
+d none include/fontconfig 0755 root bin
+f none include/fontconfig/fcfreetype.h 0644 root bin
+f none include/fontconfig/fcprivate.h 0644 root bin
+f none include/fontconfig/fontconfig.h 0644 root bin
+d none lib 0755 root bin
+f none lib/libfontconfig.a 0644 root bin
+f none lib/libfontconfig.la 0755 root bin
+s none lib/libfontconfig.so=libfontconfig.so.1.3.0
+s none lib/libfontconfig.so.1=libfontconfig.so.1.3.0
+f none lib/libfontconfig.so.1.3.0 0755 root bin
+d none lib/pkgconfig 0755 root bin
+f none lib/pkgconfig/fontconfig.pc 0644 root bin
+d none share 0755 root bin
+d none share/man 0755 root bin
+d none share/man/man1 0755 root bin
+d none var 0755 root bin
+d none var/cache 0755 root bin
+d none var/cache/fontconfig 0755 root bin

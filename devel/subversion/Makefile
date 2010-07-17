@@ -1,5 +1,5 @@
 NAME=		subversion
-VERSION=	1.6.2
+VERSION=	1.6.9
 DESC=		Subversion
 ARCHES=		sparc i386
 CATEGORY=	devel
@@ -8,13 +8,15 @@ BASEDIR=	/usr/local
 
 DIST_SITE=	http://subversion.tigris.org/downloads/
 
-BUILD_DEPENDS=	devel:apr devel:apr-util www:neon28
+BUILD_DEPENDS=	devel:apr devel:apr-util www:neon28 databases:sqlite
 RUN_DEPENDS=	$(BUILD_DEPENDS)
 
 HAS_CONFIGURE=	yes
 CONFIGURE_ARGS=	--prefix=$(PREFIX) \
 		--with-apr=$(PREFIX)/bin/apr-1-config \
-		--with-apr-util=$(PREFIX)/bin/apu-1-config
+		--with-apr-util=$(PREFIX)/bin/apu-1-config \
+		--with-sqlite=$(PREFIX) \
+		--with-neon=$(PREFIX)
 
 WITH_SSL=	yes
 

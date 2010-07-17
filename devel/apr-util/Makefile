@@ -1,5 +1,5 @@
 NAME=		apr-util
-VERSION=	1.3.7
+VERSION=	1.3.9
 DESC=		Apache Portable Runtime Utility Library
 ARCHES=		sparc i386
 CATEGORY=	devel
@@ -9,6 +9,7 @@ BASEDIR=	/usr/local
 DIST_SITE=	http://www.mirrorservice.org/sites/ftp.apache.org/apr/
 
 BUILD_DEPENDS=	devel:apr
+CFLAGS+=-m64
 
 HAS_CONFIGURE=	yes
 CONFIGURE_ARGS=	--prefix=$(PREFIX) \

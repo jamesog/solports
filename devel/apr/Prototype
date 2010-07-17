@@ -1,8 +1,7 @@
-!search /export/pkg/devel/apr/work
+!search %%WRKDIR%%
 i pkginfo
-!search /export/pkg/devel/apr/work/root
-d none /usr=/work/root/usr 0755 root bin
-!search /export/pkg/devel/apr/work/root/usr/local
+!search %%PKGDIR%%
+!search %%WRKINST%%%%PREFIX%%
 d none bin 0755 root bin
 f none bin/apr-1-config 0755 root bin
 d none build-1 0755 root bin
@@ -53,8 +52,8 @@ d none lib 0755 root bin
 f none lib/apr.exp 0644 root bin
 f none lib/libapr-1.a 0644 root bin
 f none lib/libapr-1.la 0755 root bin
-s none lib/libapr-1.so=libapr-1.so.0.3.3
-s none lib/libapr-1.so.0=libapr-1.so.0.3.3
-f none lib/libapr-1.so.0.3.3 0755 root bin
+s none lib/libapr-1.so=libapr-1.so.0.3.9
+s none lib/libapr-1.so.0=libapr-1.so.0.3.9
+f none lib/libapr-1.so.0.3.9 0755 root bin
 d none lib/pkgconfig 0755 root bin
 f none lib/pkgconfig/apr-1.pc 0644 root bin

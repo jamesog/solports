@@ -1,0 +1,33 @@
+!search /export/pkg/graphics/png/work
+i pkginfo
+!search /export/pkg/graphics/png/work/root/usr/local
+d none bin 0755 root bin
+s none bin/libpng-config=libpng12-config
+f none bin/libpng12-config 0755 root bin
+d none include 0755 root bin
+d none include/libpng12 0755 root bin
+f none include/libpng12/png.h 0644 root bin
+f none include/libpng12/pngconf.h 0644 root bin
+s none include/png.h=libpng12/png.h
+s none include/pngconf.h=libpng12/pngconf.h
+d none lib 0755 root bin
+s none lib/libpng.a=libpng12.a
+s none lib/libpng.la=libpng12.la
+s none lib/libpng.so=libpng12.so
+s none lib/libpng.so.3=libpng.so.3.37.0
+f none lib/libpng.so.3.37.0 0755 root bin
+f none lib/libpng12.a 0644 root bin
+f none lib/libpng12.la 0755 root bin
+s none lib/libpng12.so=libpng12.so.0.37.0
+s none lib/libpng12.so.0=libpng12.so.0.37.0
+f none lib/libpng12.so.0.37.0 0755 root bin
+d none lib/pkgconfig 0755 root bin
+s none lib/pkgconfig/libpng.pc=libpng12.pc
+f none lib/pkgconfig/libpng12.pc 0644 root bin
+d none share 0755 root bin
+d none share/man 0755 root bin
+d none share/man/man3 0755 root bin
+f none share/man/man3/libpng.3 0644 root bin
+f none share/man/man3/libpngpf.3 0644 root bin
+d none share/man/man5 0755 root bin
+f none share/man/man5/png.5 0644 root bin

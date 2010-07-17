@@ -1,0 +1,10 @@
+!search /export/pkg/security/barnyard/work
+i pkginfo
+i depend
+!search /export/pkg/security/barnyard/work/root
+d none /usr=/work/root/usr 0755 ogorja ogorja
+!search /export/pkg/security/barnyard/work/root/usr/local
+d none bin 0755 root bin
+f none bin/barnyard 0755 root bin
+!search /export/pkg/security/barnyard/files
+f none /etc/snort/barnyard.conf=/files/barnyard.conf 0644 root bin
