@@ -343,7 +343,7 @@ ifdef BUILD_DEPENDS
 endif
 
 fetch:
-	@if [ ! $(DISTDIR) ]; then mkdir $(DISTDIR); fi
+	@if [ ! -d $(DISTDIR) ]; then mkdir $(DISTDIR); fi
 	@if [ -n "$(DISTFILES)" ]; then \
 	cd $(DISTDIR); \
 	for file in "$(DISTFILES)"; do \
