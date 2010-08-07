@@ -1,12 +1,14 @@
 NAME=		nagios
-VERSION=	3.0.6
+VERSION=	3.2.1
 DESC=		Nagios
 ARCHES=		sparc i386
 CATEGORY=	editors
 MAINTAINER=	jamesog@solports.org
 BASEDIR=	/opt/nagios
 
-DIST_SITE=	http://kent.dl.sourceforge.net/sourceforge/nagios/$(DISTNAME)
+DIST_SITE=	http://kent.dl.sourceforge.net/sourceforge/nagios/
+
+CC=gcc
 
 HAS_CONFIGURE=	yes
 

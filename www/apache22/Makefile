@@ -1,14 +1,14 @@
 NAME=		apache22
-VERSION=	2.2.11
+VERSION=	2.2.15
 DESC=		Apache Web Server
 ARCHES=		sparc i386
 CATEGORY=	www
 MAINTAINER=	jamesog@solports.org
 BASEDIR=	/usr/local
 
-DISTNAME=	httpd-$(VERSION)$(EXTRACT_SUFX)
+DISTNAME=	httpd-$(VERSION)
 WRKSRC=		$(WRKDIR)/httpd-$(VERSION)
-DIST_SITE=	http://www.mirrorservice.org/sites/ftp.apache.org/httpd/$(DISTNAME)
+DIST_SITE=	http://www.mirrorservice.org/sites/ftp.apache.org/httpd/
 
 HAS_CONFIGURE=	yes
 CONFIGURE_ARGS=	--prefix=$(PREFIX) \
