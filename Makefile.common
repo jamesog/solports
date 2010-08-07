@@ -114,6 +114,7 @@ PROTOTYPE?=	$(PKGDIR)/Prototype
 DEPENDFILE?=	$(WRKDIR)/depend
 # IPS
 METADATA?=	$(WRKDIR)/metadata
+IPSREPO?=	http://localhost:10000/
 # XXX: PKGFILE moved below
 #PKGFILE?=	$(PKGNAME)_$(ARCH).pkg
 WRKDIR?=	$(PKGDIR)/work
@@ -485,8 +486,10 @@ endif
 
 $(METADATA):
 	@if [ -f $@ ]; then rm $@; fi
-	@echo "set name=pkg.name value=$(PKGPREFIX)$(NAME)$(PKGNAMESUFFIX)" >> $@
-	@echo "set name=pkg.description value=$(DESC)" >> $@
+	@echo "set name=pkg.name value='$(PKGPREFIX)$(NAME)$(PKGNAMESUFFIX)'" >> $@
+	@echo "set name=pkg.description value='$(DESC)'" >> $@
+	@echo "set name=description value='$(DESC)'" >> $@
+	@echo "set name=packager value='$(MAINTAINER)'" >> $@
 
 $(DEPENDFILE):
 	@if [ -f $@ ]; then rm $@; fi
@@ -627,7 +630,7 @@ else
 	@echo "$(var) is not set."
 endif
 
-.PHONY: $(PKGINFO) $(PROTOTYPE) $(DEPENDFILE) $(PKGFILE) $(TMPPROTOTYPE)
+.PHONY: $(PKGINFO) $(PROTOTYPE) $(DEPENDFILE) $(PKGFILE) $(TMPPROTOTYPE) $(METADATA)
 
 # include any file listed in MAKE_CONF, if it exists, to allow site-wide overrides
 -include $(MAKE_CONF)
