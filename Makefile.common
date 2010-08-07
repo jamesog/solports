@@ -112,6 +112,8 @@ SPOOLDIR?=	$(PKGDIR)/spool
 PKGINFO?=	$(WRKDIR)/pkginfo
 PROTOTYPE?=	$(PKGDIR)/Prototype
 DEPENDFILE?=	$(WRKDIR)/depend
+# IPS
+METADATA?=	$(WRKDIR)/metadata
 # XXX: PKGFILE moved below
 #PKGFILE?=	$(PKGNAME)_$(ARCH).pkg
 WRKDIR?=	$(PKGDIR)/work
@@ -141,7 +143,7 @@ POSTREMOVE?=	$(PKGDIR)/postremove
 TMPPROTOTYPE?=	$(WRKDIR)/.Prototype.mktmp
 
 # Default maintainer
-MAINTAINER?=	ports@solports.org
+MAINTAINER?=	ports@openindiana.org
 
 # Get the machine arch
 ifndef ARCH
@@ -161,8 +163,10 @@ $(error $(PKGNAME) does not run on the $(ARCH) platform.)
 endif
 endif
 
-CC?=	cc
-CXX?=	CC
+UNAME_R=$(shell uname -r)
+
+CC?=	gcc
+CXX?=	g++
 
 MAKE_CONF?=/etc/make.conf
 
@@ -443,6 +447,9 @@ pkg: install $(PKGFILE)
 pkginfo: $(PKGINFO)
 prototype: $(PROTOTYPE)
 
+# For IPS
+metadata: $(METADATA)
+
 comma := ,
 empty :=
 space := $(empty) $(empty)
@@ -475,6 +482,11 @@ endif
 ifdef BASEDIR
 	@echo "BASEDIR=$(BASEDIR)" >> $@
 endif
+
+$(METADATA):
+	@if [ -f $@ ]; then rm $@; fi
+	@echo "set name=pkg.name value=$(PKGPREFIX)$(NAME)$(PKGNAMESUFFIX)" >> $@
+	@echo "set name=pkg.description value=$(DESC)" >> $@
 
 $(DEPENDFILE):
 	@if [ -f $@ ]; then rm $@; fi
