@@ -3,7 +3,6 @@ VERSION=	1.2.3
 DESC=		zlib compression library
 ARCH=		sparc
 CATEGORY=	application
-VENDOR=		http://www.zlib.net packaged for MHCB
 BASEDIR=	/usr/local
 
 HAS_CONFIGURE=	true

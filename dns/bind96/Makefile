@@ -4,7 +4,6 @@ VERSION=	9.6.1-P3
 DESC=		ISC BIND DNS Server
 ARCH=		sparc
 CATEGORY=	application
-VENDOR=		http://www.isc.org packaged for MHCB
 BASEDIR=	/usr/local
 
 DIST_SITE=	ftp://ftp.isc.org/isc/bind9/$(VERSION)/
