@@ -56,6 +56,13 @@
 # MAKE_ARGS			- Arguments to pass to make.
 #					  Default: none
 #
+# PACKAGE OPTIONS
+#
+# PKGFORMAT			- 'ips' or 'svr4' - determined automatically if not
+#					  specified.
+# IPSREPO			- URI of IPS repository
+#					  Default: http://localhost:10000/
+#
 # The following are set automatically. Do not set them unless you
 # know what you are doing!
 #
@@ -165,6 +172,14 @@ endif
 endif
 
 UNAME_R=$(shell uname -r)
+
+ifndef PKGFORMAT
+ifeq ($(UNAME_R),5.11)
+PKGFORMAT=	ips
+else
+PKGFORMAT=	svr4
+endif
+endif
 
 CC?=	gcc
 CXX?=	g++
