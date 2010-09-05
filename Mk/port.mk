@@ -500,7 +500,7 @@ ${DEPENDFILE}:
 .for dep in ${RUN_DEPENDS}
 	@cat=${dep:C/(.*):/\1/}; \
 	 pkg=${dep:C/:(.*)/\1}; \
-	 desc=`${MAKE} -s -C ${PORTSDIR}/$$cat/$$pkg -VDESC | sed -e 's/DESC=//'`; \
+	 desc=`${MAKE} -s -C ${PORTSDIR}/$$cat/$$pkg -VDESC`; \
 	 echo "P ${PKGPREFIX}$$pkg $$desc" >> $@
 .endfor
 .endif
@@ -508,7 +508,7 @@ ${DEPENDFILE}:
 .for conflict in ${CONFLICTS}
 	@cat=${conflict:C/(.*):/\1/}; \
 	 pkg=${conflict:C/:(.*)/\1}; \
-	 desc=`${MAKE} -s -C ${PORTSDIR}/$$cat/$$pkg -VDESC | sed -e 's/DESC=//'`; \
+	 desc=`${MAKE} -s -C ${PORTSDIR}/$$cat/$$pkg -VDESC`; \
 	 echo "I ${PKGPREFIX}$$pkg $$desc" >> $@
 .endif	
 
