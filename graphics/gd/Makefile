@@ -7,4 +7,4 @@ BASEDIR=	/usr/local
 
 HAS_CONFIGURE=	true
 
-include ../../Makefile.common
+.include "../../Mk/port.mk"

@@ -11,4 +11,4 @@ BUILD_DEPENDS=	textproc:libxml2
 
 HAS_CONFIGURE=	yes
 
-include ../../Makefile.common
+.include "../../Mk/port.mk"

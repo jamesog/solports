@@ -5,8 +5,8 @@ ARCHES=		sparc
 CATEGORY=	net
 BASEDIR=	/usr/local
 
-DIST_SITE=	http://ftp.gnu.org/gnu/$(NAME)/
+DIST_SITE=	http://ftp.gnu.org/gnu/${NAME}/
 
 HAS_CONFIGURE=	yes
 
-include ../../Makefile.common
+.include "../../Mk/port.mk"

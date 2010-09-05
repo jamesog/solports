@@ -12,4 +12,4 @@ BUILD_DEPENDS=	devel:autoconf263
 
 HAS_CONFIGURE=	yes
 
-include ../../Makefile.common
+.include "../../Mk/port.mk"

@@ -8,4 +8,4 @@ BASEDIR=	/usr/local
 DIST_SITE=	http://ftp.gnu.org/gnu/m4/
 HAS_CONFIGURE=	yes
 
-include ../../Makefile.common
+.include "../../Mk/port.mk"

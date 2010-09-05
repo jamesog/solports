@@ -10,4 +10,4 @@ BUILD_DEPENDS=	databases:rrdtool databases:gdbm devel:libevent
 HAS_CONFIGURE=	yes
 CONFIGURE_SCRIPT=autogen.sh
 
-include ../../Makefile.common
+.include "../../Mk/port.mk"

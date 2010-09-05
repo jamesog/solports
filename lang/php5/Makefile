@@ -13,27 +13,26 @@ BUILD_DEPENDS=	www:apache22 devel:pkg-config security:openssl
 RUN_DEPENDS=	www:apache22 security:openssl
 
 HAS_CONFIGURE=	yes
-CONFIGURE_ARGS=	--prefix=$(PREFIX) \
-		--sysconfdir=/etc/$(NAME) \
+CONFIGURE_ARGS=	--prefix=${PREFIX} \
+		--sysconfdir=/etc/${NAME} \
 		--with-apxs2 \
 		--with-openssl=/usr/local/include/openssl \
 		--with-zlib \
 		--enable-ftp \
 		--with-gd
 
-#CFLAGS=		-m64
 LDFLAGS=	"-R /usr/local/lib"
 
-ifdef WITH_FASTCGI
+.ifdef WITH_FASTCGI
 CONFIGURE_ARGS+=--enable-fastcgi
-endif
+.endif
 
-ifdef WITH_MYSQL
+.ifdef WITH_MYSQL
 CONFIGURE_ARGS+=--with-mysql
-endif
+.endif
 
-ifdef WITH_OPENSSL
+.ifdef WITH_OPENSSL
 CONFIGURE_ARGS+=--with-openssl=/usr/local/ssl
-endif
+.endif
 
-include ../../Makefile.common
+.include "../../Mk/port.mk"

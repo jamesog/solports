@@ -12,8 +12,8 @@ RUN_DEPENDS=	databases:mysql41 security:snort
 EXTRA_FILES=	barnyard.conf=/etc/snort/barnyard.conf
 
 HAS_CONFIGURE=	yes
-CONFIGURE_ARGS=	--prefix=$(PREFIX) \
-		--sysconfdir=/etc/$(NAME) \
+CONFIGURE_ARGS=	--prefix=${PREFIX} \
+		--sysconfdir=/etc/${NAME} \
 		--enable-mysql
 
 LDFLAGS+=	-lresolv
@@ -23,4 +23,4 @@ LDFLAGS+=	-lresolv
 
 INSTALL_TARGETS=install install-data
 
-include ../../Makefile.common
+.include "../../Mk/port.mk"

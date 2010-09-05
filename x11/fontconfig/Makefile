@@ -5,12 +5,12 @@ ARCHES=		sparc
 CATEGORY=	net
 BASEDIR=	/usr/local
 
-GNUMAKE=	$(MAKE)
+GNUMAKE=	${MAKE}
 BUILD_DEPENDS=	print:freetype textproc:expat
 
 HAS_CONFIGURE=	yes
-CONFIGURE_ARGS=	--prefix=$(PREFIX) \
-		--sysconfdir=/etc/$(NAME) \
+CONFIGURE_ARGS=	--prefix=${PREFIX} \
+		--sysconfdir=/etc/${NAME} \
 		--disable-docs
 
-include ../../Makefile.common
+.include "../../Mk/port.mk"

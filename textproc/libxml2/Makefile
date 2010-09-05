@@ -11,9 +11,9 @@ DIST_SITE=	ftp://xmlsoft.org/libxml2/
 #CC=		gcc
 CFLAGS+=	-I/usr/local/include
 LDFLAGS+=	-L/usr/lib/64 -L/usr/local/lib
-MAKE_ENV+=	LIBTOOL=$(PREFIX)/bin/libtool
-CONFIGURE_ENV+=	LIBTOOL=$(PREFIX)/bin/libtool
+MAKE_ENV+=	LIBTOOL=${PREFIX}/bin/libtool
+CONFIGURE_ENV+=	LIBTOOL=${PREFIX}/bin/libtool
 
 HAS_CONFIGURE=	yes
 
-include ../../Makefile.common
+.include "../../Mk/port.mk"

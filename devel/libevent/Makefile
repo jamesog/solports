@@ -5,9 +5,9 @@ ARCHES=		sparc
 CATEGORY=	net
 BASEDIR=	/usr/local
 
-DISTNAME=	$(NAME)-$(VERSION)-stable$(EXTRACT_SUFX)
-WRKSRC=		$(WRKDIR)/$(NAME)-$(VERSION)-stable
+DISTNAME=	${NAME}-${VERSION}-stable${EXTRACT_SUFX}
+WRKSRC=		${WRKDIR}/${NAME}-${VERSION}-stable
 
 HAS_CONFIGURE=	yes
 
-include ../../Makefile.common
+.include "../../Mk/port.mk"
