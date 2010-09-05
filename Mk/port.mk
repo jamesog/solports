@@ -452,7 +452,7 @@ fakeinstall: build
 
 # Target to make a local IPS repository
 ipsrepo:
-	@if [ -d ${PKGSTORE} -a "$(ls -A ${PKGSTORE})" ]; then \
+	@if [ -d ${PKGSTORE} -a -z "$(ls -A ${PKGSTORE})" ]; then \
 		echo "==> Error: ${PKGSTORE} not empty"; \
 	else \
 		if [ ! -d ${PKGSTORE} ]; then mkdir ${PKGSTORE}; fi; \
