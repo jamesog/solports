@@ -23,7 +23,7 @@
 #
 # OPTIONAL VARIABLES
 #
-# PKGPREFIX			- Short code prefixed to package name
+# PKGPREFIX			- Short code prefixed to package name (SVr4 only).
 #					  Default: PORT
 # PKGREVISION		- The package revision
 # LONGDESC			- Longer description of the package (<255 chars)
@@ -489,7 +489,7 @@ ${PKGINFO}:
 
 ${METADATA}:
 	@if [ -f $@ ]; then rm $@; fi
-	@echo "set name=pkg.name value='${PKGPREFIX}${NAME}${PKGNAMESUFFIX}'" >> $@
+	@echo "set name=pkg.name value='${NAME}${PKGNAMESUFFIX}'" >> $@
 	@echo "set name=pkg.description value='${DESC}'" >> $@
 	@echo "set name=description value='${DESC}'" >> $@
 	@echo "set name=packager value='${MAINTAINER}'" >> $@
