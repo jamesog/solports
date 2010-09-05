@@ -9,4 +9,4 @@ BUILD_DEPENDS=	graphics:png print:freetype x11:pixman x11:fontconfig
 
 HAS_CONFIGURE=	yes
 
-include ../../Makefile.common
+.include "../../Mk/port.mk"

@@ -6,8 +6,8 @@ CATEGORY=	application
 BASEDIR=	/usr/local
 
 HAS_CONFIGURE=	true
-CONFIGURE_ARGS=	--shared --prefix=$(PREFIX)
+CONFIGURE_ARGS=	--shared --prefix=${PREFIX}
 DESTDIRNAME=	prefix
-FAKE_PREFIX=	$(WRKINST)$(PREFIX)
+FAKE_PREFIX=	${WRKINST}${PREFIX}
 
-include ../../Makefile.common
+.include "../../Mk/port.mk"

@@ -3,14 +3,14 @@ VERSION=	7.2
 DESC=		Vi IMproved
 ARCHES=		sparc i386
 CATEGORY=	editors
-MAINTAINER=	jamesog@solports.org
+MAINTAINER=	james@netinertia.co.uk
 BASEDIR=	/usr/local
 
 EXTRACT_SUFX=	.tar.bz2
-WRKSRC=		$(WRKDIR)/$(NAME)$(subst .,,$(VERSION))
+WRKSRC=		${WRKDIR}/${NAME}${VERSION:S/.//}
 
-DIST_SITE=	ftp://ftp.vim.org/pub/vim/unix/$(DISTNAME)
+DIST_SITE=	ftp://ftp.vim.org/pub/vim/unix/${DISTNAME}
 
 HAS_CONFIGURE=	yes
 
-include ../../Makefile.common
+.include "../../Mk/port.mk"

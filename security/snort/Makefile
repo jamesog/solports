@@ -9,9 +9,9 @@ BUILD_DEPENDS=	net:libpcap devel:pcre
 RUN_DEPENDS=	net:libpcap devel:pcre
 
 HAS_CONFIGURE=	yes
-CONFIGURE_ARGS=	--prefix=$(PREFIX) \
+CONFIGURE_ARGS=	--prefix=${PREFIX} \
 		--sysconfdir=/etc/snort \
 		--enable-perfprofiling \
 		--with-mysql
 
-include ../../Makefile.common
+.include "../../Mk/port.mk"

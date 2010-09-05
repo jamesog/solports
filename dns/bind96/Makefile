@@ -6,10 +6,7 @@ ARCH=		sparc
 CATEGORY=	application
 BASEDIR=	/usr/local
 
-DIST_SITE=	ftp://ftp.isc.org/isc/bind9/$(VERSION)/
-
-#DISTNAME=	httpd-$(VERSION)$(EXTRACT_SUFX)
-#WRKSRC=		$(WRKDIR)/httpd-$(VERSION)
+DIST_SITE=	ftp://ftp.isc.org/isc/bind9/${VERSION}/
 
 INSTALL_SCRIPTS=checkinstall preinstall postinstall
 REMOVE_SCRIPTS=	preremove
@@ -20,6 +17,6 @@ SMF_MANIFEST=	bind96.xml
 SMF_METHOD=	dns-server
 
 HAS_CONFIGURE=	true
-CONFIGURE_ARGS=	--prefix=$(PREFIX) --sysconfdir=/etc/namedb
+CONFIGURE_ARGS=	--prefix=${PREFIX} --sysconfdir=/etc/namedb
 
-include ../../Makefile.common
+.include "../../Mk/port.mk"

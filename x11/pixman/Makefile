@@ -9,4 +9,4 @@ DIST_SITE=	http://xorg.freedesktop.org/releases/individual/
 
 HAS_CONFIGURE=	yes
 
-include ../../Makefile.common
+.include "../../Mk/port.mk"

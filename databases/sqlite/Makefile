@@ -6,9 +6,9 @@ CATEGORY=	databases
 MAINTAINER=	ports@solports.org
 BASEDIR=	/usr/local
 
-DISTNAME=	$(NAME)-amalgamation-$(VERSION)
+DISTNAME=	${NAME}-amalgamation-${VERSION}
 DIST_SITE=	http://sqlite.org/
 
 HAS_CONFIGURE=	yes
 
-include ../../Makefile.common
+.include "../../Mk/port.mk"

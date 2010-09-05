@@ -11,7 +11,7 @@ BUILD_DEPENDS=	devel:pkg-config devel:libtool
 HAS_CONFIGURE=	yes
 CONFIGURE_ENV+=	gmake
 MAKE_ENV+=	gmake
-#CONFIGURE_ARGS=	--prefix=$(PREFIX) \
+#CONFIGURE_ARGS=	--prefix=${PREFIX} \
 #		--without-zlib
 
-include ../../Makefile.common
+.include "../../Mk/port.mk"

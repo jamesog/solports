@@ -3,42 +3,42 @@ VERSION=	2.2.15
 DESC=		Apache Web Server
 ARCHES=		sparc i386
 CATEGORY=	www
-MAINTAINER=	jamesog@solports.org
+MAINTAINER=	james@netinertia.co.uk
 BASEDIR=	/usr/local
 
-DISTNAME=	httpd-$(VERSION)
-WRKSRC=		$(WRKDIR)/httpd-$(VERSION)
+DISTNAME=	httpd-${VERSION}
+WRKSRC=		${WRKDIR}/httpd-${VERSION}
 DIST_SITE=	http://www.mirrorservice.org/sites/ftp.apache.org/httpd/
 
 HAS_CONFIGURE=	yes
-CONFIGURE_ARGS=	--prefix=$(PREFIX) \
+CONFIGURE_ARGS=	--prefix=${PREFIX} \
 		--enable-layout=FreeBSD \
 		--enable-http
 
 WITH_SSL?=	yes
 
-ifdef WITH_SSL
+.ifdef WITH_SSL
 CONFIGURE_ARGS+=--enable-ssl
-endif
+.endif
 
-ifdef WITH_DAV
+.ifdef WITH_DAV
 CONFIGURE_ARGS+=--enable-dav
-endif
+.endif
 
-ifdef WITH_SUEXEC
+.ifdef WITH_SUEXEC
 CONFIGURE_ARGS+=--enable-suexec
-endif
+.endif
 
-ifdef WITH_CGI
+.ifdef WITH_CGI
 CONFIGURE_ARGS+=--enable-cgi
-endif
+.endif
 
-ifdef WITH_DAV_FS
+.ifdef WITH_DAV_FS
 CONFIGURE_ARGS+=--enable-dav-fs
-endif
+.endif
 
-ifdef WITH_REWRITE
+.ifdef WITH_REWRITE
 CONFIGURE_ARGS+=--enable-rewrite
-endif
+.endif
 
-include ../../Makefile.common
+.include "../../Mk/port.mk"

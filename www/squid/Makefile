@@ -4,7 +4,7 @@ PKGREVISION=	2
 DESC=		Squid Web Proxy
 ARCHES=		sparc i386
 CATEGORY=	www
-MAINTAINER=	jamesog@solports.org
+MAINTAINER=	james@netinertia.co.uk
 BASEDIR=	/usr/local/squid
 
 DIST_SITE=	http://www.squid-cache.org/Versions/v2/2.7/
@@ -18,38 +18,38 @@ WITH_ICMP=	yes
 WITH_HTCP=	yes
 WITH_DEVPOLL=	yes
 
-ifdef ARCH_IS_64BIT
+.ifdef ARCH_IS_64BIT
 WITH_LARGEFILES=yes
-endif
+.endif
 
 HAS_CONFIGURE=	yes
-CONFIGURE_ARGS=	--prefix=$(PREFIX)
+CONFIGURE_ARGS=	--prefix=${PREFIX}
 
 SMF_MANIFEST=	squid.xml
 SMF_METHOD=	squid
 
-ifdef WITH_STOREIO_MODULES
-CONFIGURE_ARGS+=--enable-storeio="$(WITH_STOREIO_MODULES)"
-endif
+.ifdef WITH_STOREIO_MODULES
+CONFIGURE_ARGS+=--enable-storeio="${WITH_STOREIO_MODULES}"
+.endif
 
-ifdef WITH_SNMP
+.ifdef WITH_SNMP
 CONFIGURE_ARGS+=--enable-snmp
-endif
+.endif
 
-ifdef WITH_ICMP
+.ifdef WITH_ICMP
 CONFIGURE_ARGS+=--enable-icmp
-endif
+.endif
 
-ifdef WITH_HTCP
+.ifdef WITH_HTCP
 CONFIGURE_ARGS+=--enable-htcp
-endif
+.endif
 
-ifdef WITH_DEVPOLL
+.ifdef WITH_DEVPOLL
 CONFIGURE_ARGS+=--enable-devpoll
-endif
+.endif
 
-ifdef WITH_LARGEFILES
+.ifdef WITH_LARGEFILES
 CONFIGURE_ARGS+=--with-large-files
-endif
+.endif
 
-include ../../Makefile.common
+.include "../../Mk/port.mk"

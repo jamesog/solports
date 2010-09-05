@@ -3,13 +3,11 @@ VERSION=	4.0
 DESC=		Bourne Again SHell
 ARCHES=		sparc i386
 CATEGORY=	editors
-MAINTAINER=	jamesog@solports.org
+MAINTAINER=	james@netinertia.co.uk
 BASEDIR=	/usr/local
 
-#WRKSRC=		$(WRKDIR)/$(NAME)$(subst .,,$(VERSION))
-
-DIST_SITE=	http://ftp.gnu.org/gnu/bash/$(DISTNAME)
+DIST_SITE=	http://ftp.gnu.org/gnu/bash/
 
 HAS_CONFIGURE=	yes
 
-include ../../Makefile.common
+.include "../../Mk/port.mk"

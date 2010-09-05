@@ -3,9 +3,9 @@ VERSION=	0.6c11
 DESC=		Setuptools
 ARCHES=		sparc i386
 CATEGORY=	devel
-MAINTAINER=	jamesog@solports.org
+MAINTAINER=	james@netinertia.co.uk
 BASEDIR=	/usr/local
 
-DIST_SITE=	http://pypi.python.org/packages/source/s/$(NAME)/
+DIST_SITE=	http://pypi.python.org/packages/source/s/${NAME}/
 
-include ../../Makefile.common
+.include "../../Mk/port.mk"

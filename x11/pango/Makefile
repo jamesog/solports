@@ -5,12 +5,12 @@ ARCHES=		sparc
 CATEGORY=	net
 BASEDIR=	/usr/local
 
-#DIST_SITE=	ftp://ftp.gtk.org/pub/pango/
+DIST_SITE=	ftp://ftp.gtk.org/pub/pango/
 
 BUILD_DEPENDS=	devel:glib graphics:cairo
 
 HAS_CONFIGURE=	yes
-CONFIGURE_ARGS=	--prefix=$(PREFIX) \
-		--sysconfdir=/etc/$(NAME)
+CONFIGURE_ARGS=	--prefix=${PREFIX} \
+		--sysconfdir=/etc/${NAME}
 
-include ../../Makefile.common
+.include "../../Mk/port.mk"
