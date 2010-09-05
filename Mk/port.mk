@@ -450,6 +450,19 @@ fakeinstall: build
 	fi
 .endif
 
+# Target to make a local IPS repository
+ipsrepo:
+	@if [ -d ${PKGSTORE} -a "$(ls -A ${PKGSTORE})" ]; then \
+		echo "==> Error: ${PKGSTORE} not empty"; \
+	else \
+		if [ ! -d ${PKGSTORE} ]; then mkdir ${PKGSTORE}; fi; \
+		hostname=`hostname`; \
+		pkgrepo create ${PKGSTORE} && \
+		pkgrepo -s ${PKGSTORE} set-property publisher/prefix=$$hostname && \
+		echo "==> IPS repository created at file://${PKGSTORE}/" || \
+		echo "==> Unable to create IPS repository"; \
+	fi
+
 install: fakeinstall
 pkg: install ${PKGFILE}
 pkginfo: ${PKGINFO}
